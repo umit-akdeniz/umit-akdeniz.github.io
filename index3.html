@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amerika'nın Keşfi ve Kaos Teorisi - İnteraktif Analiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
+    <style>
+        :root {
+            --blue-950: #1e1b4b;
+            --blue-900: #1e40af;
+            --blue-800: #2563eb;
+            --blue-700: #3b82f6;
+            --yellow-500: #f59e0b;
+            --yellow-400: #fbbf24;
+            --gray-300: #d1d5db;
+            --white: #f8fafc;
+            --red-500: #ef4444;
+            --green-500: #22c55e;
+            --purple-500: #a855f7;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--blue-900), var(--blue-700));
+            color: var(--white);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        header {
+            background-color: var(--blue-950);
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--yellow-400);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-icon:hover {
+            transform: rotate(360deg);
+        }
+
+        .logo-text {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--yellow-400);
+            letter-spacing: 0.02em;
+        }
+
+        @media (min-width: 768px) {
+            .logo-text {
+                font-size: 2rem;
+            }
+        }
+
+        nav {
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            nav {
+                width: auto;
+            }
+        }
+
+        .nav-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .nav-button {
+            background-color: var(--blue-800);
+            color: var(--white);
+            border: none;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.25rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+        }
+
+        .nav-button:hover {
+            background-color: var(--blue-700);
+            transform: translateY(-2px);
+        }
+
+        .nav-button:focus {
+            outline: 2px solid var(--yellow-400);
+            outline-offset: 2px;
+        }
+
+        .nav-button.active {
+            background-color: var(--yellow-400);
+            color: var(--blue-950);
+            font-weight: 600;
+        }
+
+        main {
+            padding: 2rem 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section {
+            background-color: var(--blue-800);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--yellow-400);
+            margin-bottom: 1.5rem;
+        }
+
+        .section-content {
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .box {
+            background-color: var(--blue-700);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+        }
+
+        .box-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--yellow-400);
+            margin-bottom: 1rem;
+        }
+
+        .historical-image {
+            max-width: 100%;
+            border-radius: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .gallery-desc {
+            font-size: 0.875rem;
+            color: var(--gray-300);
+            margin-top: 0.5rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .grid-3 {
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 768px) {
+            .grid-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            background-color: var(--yellow-400);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .icon {
+            font-size: 1.75rem;
+        }
+
+        .icon-small {
+            width: 40px;
+            height: 40px;
+            background-color: var(--yellow-400);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .flex {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .button {
+            background-color: var(--yellow-400);
+            color: var(--blue-950);
+            border: none;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: var(--yellow-500);
+            transform: translateY(-2px);
+        }
+
+        .button:focus {
+            outline: 2px solid var(--white);
+            outline-offset: 2px;
+        }
+
+        .butterfly-effect {
+            position: relative;
+            padding: 2rem;
+            background-color: var(--blue-700);
+            border-radius: 0.75rem;
+            margin-top: 2rem;
+            overflow: hidden;
+        }
+
+        .butterfly-path {
+            position: relative;
+            height: 200px;
+            width: 100%;
+        }
+
+        .butterfly {
+            position: absolute;
+            font-size: 2rem;
+            animation: fly 8s infinite ease-in-out;
+            will-change: transform;
+        }
+
+        @keyframes fly {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(120px, -40px); }
+            50% { transform: translate(180px, 20px); }
+            75% { transform: translate(60px, 60px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .highlight-text {
+            color: var(--yellow-400);
+            font-weight: 600;
+        }
+
+        .math-formula {
+            font-style: italic;
+            color: var(--yellow-400);
+        }
+
+        .term-card {
+            background-color: var(--blue-700);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .term-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--yellow-400);
+            margin-bottom: 1rem;
+        }
+
+        .chaos-parameter {
+            margin: 2rem 0;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .slider {
+            width: 100%;
+            accent-color: var(--yellow-400);
+        }
+
+        .canvas-container {
+            position: relative;
+            margin: 2rem 0;
+            width: 100%;
+        }
+
+        .error-message {
+            color: var(--red-500);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .bifurcation-diagram {
+            margin: 2rem 0;
+            width: 100%;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 2rem 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 0.75rem;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--yellow-400);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -0.5rem;
+            top: 0.5rem;
+            width: 16px;
+            height: 16px;
+            background-color: var(--yellow-400);
+            border-radius: 50%;
+        }
+
+        .timeline-year {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--yellow-400);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-tagline {
+            font-size: 0.875rem;
+            color: var(--gray-300);
+        }
+
+        .footer-copyright {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <header role="banner">
+                <div class="header-content">
+                    <div class="logo">
+                        <span class="logo-icon" aria-hidden="true">🌀</span>
+                        <h1 class="logo-text">Amerika'nın Keşfi ve Kaos</h1>
+                    </div>
+                    <nav role="navigation" aria-label="Ana navigasyon">
+                        <ul class="nav-list">
+                            <li class="nav-item">
+                                <button class="nav-button active" data-tab="genel-bakis" id="genel-bakis-tab" aria-selected="true" aria-controls="genel-bakis">Genel Bakış</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-button" data-tab="kaos-teorisi" id="kaos-teorisi-tab" aria-selected="false" aria-controls="kaos-teorisi">Kaos Teorisi</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-button" data-tab="kasifler" id="kasifler-tab" aria-selected="false" aria-controls="kasifler">Kaşifler</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-button" data-tab="zaman-cizelgesi" id="zaman-cizelgesi-tab" aria-selected="false" aria-controls="zaman-cizelgesi">Zaman Çizelgesi</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-button" data-tab="kaotik-analiz" id="kaotik-analiz-tab" aria-selected="false" aria-controls="kaotik-analiz">Kaotik Analiz</button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+
+            <div id="genel-bakis" class="tab-content active" role="tabpanel" aria-labelledby="genel-bakis-tab" aria-hidden="false">
+                <div class="section">
+                    <h2 class="section-title">Amerika'nın Keşfi</h2>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Columbus_map.jpg/800px-Columbus_map.jpg" alt="Kolomb’un 1492 navigasyon haritası" class="historical-image" loading="lazy">
+                    <p class="gallery-desc">Kolomb’un 1492 navigasyon haritası. Kaynak: Wikimedia Commons</p>
+                    <p class="section-content">
+                        Amerika kıtasının Avrupalılar tarafından keşfi, 15. yüzyılın sonlarında başlayarak dünya tarihini kökten değiştirmiştir. 
+                        Kristof Kolomb’un 1492’deki yolculuğu, Avrupa’nın yeni kıtayla bağlantısını başlatmış, ancak Vikingler ve yerli halklarla 
+                        daha önceki temaslar da bu hikayenin parçasıdır. Bu keşifler, kültürel alışverişten kolonizasyona, ekonomik dönüşümlerden 
+                        çatışmalara kadar geniş kapsamlı sonuçlar doğurmuştur. Kaos teorisi, bu olayların öngörülemez etkilerini anlamak için güçlü 
+                        bir çerçeve sunar.
+                    </p>
+                    <div class="box">
+                        <h3 class="box-title">Keşif Öncesi Dönem</h3>
+                        <p>
+                            Amerika kıtası, yaklaşık 20.000 yıl önce Bering Boğazı üzerinden Asya’dan gelen yerli halklar tarafından iskân edilmişti. 
+                            Maya, Aztek ve İnka medeniyetleri, tarım, astronomi, matematik ve mimaride olağanüstü başarılar elde etti. Örneğin, 
+                            Maya takvimi ve Chichen Itza’daki El Castillo piramidi, bu toplumların bilimsel ve kültürel zenginliğini gösterir. 
+                            Avrupalılar gelmeden önce, bu medeniyetler kendi kaotik dinamiklerini yaşamıştı.
+                        </p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Chichen_Itza_3.jpg/800px-Chichen_Itza_3.jpg" alt="Chichen Itza, Maya piramidi" class="historical-image" loading="lazy">
+                        <p class="gallery-desc">Chichen Itza, Maya piramidi, Meksika. Kaynak: Wikimedia Commons</p>
+                    </div>
+                    <div class="box">
+                        <h3 class="box-title">Keşiflerin Küresel Etkileri</h3>
+                        <p>
+                            Amerika’nın keşfi, Kolomb Borsası olarak bilinen büyük bir biyolojik ve kültürel değişimi tetikledi. Patates, mısır ve 
+                            domates gibi ürünler Avrupa’ya ulaşırken, atlar, silahlar ve hastalıklar Amerika’ya geldi. Bu değişim, kaos teorisindeki 
+                            fraktal yayılım gibi, küçük olayların geniş ölçekli sonuçlara yol açtığını gösterir.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">İlk Keşifler</h2>
+                    <div class="grid grid-2">
+                        <div class="box">
+                            <h3 class="box-title">Viking Keşifleri</h3>
+                            <p>
+                                MS 1000 civarında, Leif Erikson liderliğindeki Vikingler, Kuzey Amerika’ya (Vinland, muhtemelen Newfoundland) ulaştı. 
+                                L’Anse aux Meadows’taki arkeolojik buluntular, bu erken temasın kanıtıdır. Vikingler, kalıcı bir koloni kuramadı, ancak 
+                                bu keşif, Avrupa’nın Amerika ile ilk teması olarak tarihe geçti.
+                            </p>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/L%27Anse_aux_Meadows%2C_reconstructed_Viking_settlement.jpg/800px-L%27Anse_aux_Meadows%2C_reconstructed_Viking_settlement.jpg" alt="L’Anse aux Meadows Viking yerleşimi" class="historical-image" loading="lazy">
+                            <p class="gallery-desc">L’Anse aux Meadows, Viking yerleşimi, Kanada. Kaynak: Wikimedia Commons</p>
+                        </div>
+                        <div class="box">
+                            <h3 class="box-title">Kristof Kolomb ve Sonrası</h3>
+                            <p>
+                                1492’de İspanya’nın desteğiyle Kristof Kolomb, Bahama Adaları’na ulaştı. Santa Maria, Pinta ve Niña gemileriyle 
+                                yaptığı dört sefer, Karayipler ve Orta Amerika’nın haritalanmasını sağladı. Ancak, yerli halklar üzerindeki yıkıcı 
+                                etkiler, kaos teorisindeki öngörülemez sonuçların bir örneğidir.
+                            </p>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Columbus_Ships.jpg/800px-Columbus_Ships.jpg" alt="Kristof Kolomb’un gemileri" class="historical-image" loading="lazy">
+                            <p class="gallery-desc">Kristof Kolomb’un gemileri, 1492. Kaynak: Wikimedia Commons</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Keşiflerin Sebepleri</h2>
+                    <div class="grid grid-3">
+                        <div class="box center-content">
+                            <div class="icon-circle">
+                                <span class="icon">⛵</span>
+                            </div>
+                            <h3 class="box-title">Ekonomik Nedenler</h3>
+                            <p>
+                                Osmanlıların doğu ticaret yollarını kontrolü, Avrupa’yı yeni rotalar aramaya itti. Baharat, ipek ve altın gibi 
+                                kaynaklara doğrudan erişim, keşiflerin ekonomik motoruydu. Örneğin, İspanya’nın altın arayışı, Kolomb’un seferlerini 
+                                finanse etti.
+                            </p>
+                        </div>
+                        <div class="box center-content">
+                            <div class="icon-circle">
+                                <span class="icon">🌎</span>
+                            </div>
+                            <h3 class="box-title">Siyasi Nedenler</h3>
+                            <p>
+                                Avrupa krallıkları, yeni topraklar fethederek güçlerini artırmayı hedefledi. İspanya ve Portekiz arasındaki rekabet, 
+                                Tordesillas Antlaşması (1494) ile düzenlendi, ancak bu anlaşma kaotik sınır çatışmalarına yol açtı.
+                            </p>
+                        </div>
+                        <div class="box center-content">
+                            <div class="icon-circle">
+                                <span class="icon">📚</span>
+                            </div>
+                            <h3 class="box-title">Bilimsel ve Dini Nedenler</h3>
+                            <p>
+                                Rönesans’ın bilimsel merakı, navigasyon teknolojilerini (örneğin, astrolab ve karavel gemileri) geliştirdi. Hıristiyanlığı 
+                                yayma misyonu, kaşifleri yeni topraklara yöneltti, ancak bu dini hedefler yerli halklarla çatışmaları tetikledi.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="kaos-teorisi" class="tab-content" role="tabpanel" aria-labelledby="kaos-teorisi-tab" aria-hidden="true">
+                <div class="section">
+                    <h2 class="section-title">Kaos Teorisi ve Tarihsel Dönüm Noktaları</h2>
+                    <p class="section-content">
+                        Kaos teorisi, deterministik sistemlerdeki öngörülemez davranışları inceler. Edward Lorenz’in 1960’larda geliştirdiği bu teori, 
+                        başlangıç koşullarına hassas bağımlılık (kelebek etkisi), fraktal yapılar ve kaotik dinamikler gibi kavramlarla tanımlanır. 
+                        Amerika’nın keşfi, kaos teorisinin tarihsel bir yansımasıdır: Kolomb’un rotasındaki küçük bir sapma, tamamen farklı bir kıtanın 
+                        keşfine yol açtı.
+                    </p>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Lorenz_attractor_yb.svg/800px-Lorenz_attractor_yb.svg.png" alt="Lorenz attractor görselleştirmesi" class="historical-image" loading="lazy">
+                    <p class="gallery-desc">Lorenz attractor, kaos teorisi sembolü. Kaynak: Wikimedia Commons</p>
+                    
+                    <div class="butterfly-effect">
+                        <div class="butterfly-path">
+                            <span class="butterfly" style="top: 10%; left: 10%;">🦋</span>
+                            <span class="butterfly" style="top: 30%; left: 45%; animation-delay: 2s;">🦋</span>
+                            <span class="butterfly" style="top: 50%; left: 20%; animation-delay: 4s;">🦋</span>
+                        </div>
+                        <h3 class="box-title">Kelebek Etkisi</h3>
+                        <p>
+                            <span class="highlight-text">"Kelebek Etkisi"</span>, küçük bir değişikliğin büyük sonuçlara yol açabileceğini ifade eder. 
+                            Lorenz’in ünlü sorusu, <em>“Brezilya’da bir kelebeğin kanat çırpması, Texas’ta bir kasırga yaratabilir mi?”</em> bu 
+                            fenomeni özetler. Örneğin, Kolomb’un rotasında bir rüzgar değişikliği, farklı bir adaya ulaşmasına neden olabilirdi.
+                        </p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Butterfly_chaos.jpg/800px-Butterfly_chaos.jpg" alt="Kelebek, kaos teorisi sembolü" class="historical-image" loading="lazy">
+                        <p class="gallery-desc">Kelebek, kaos teorisi sembolü. Kaynak: Wikimedia Commons</p>
+                    </div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <h3 class="box-title">Kaos Teorisinin Modern Uygulamaları</h3>
+                        <p>
+                            Kaos teorisi, meteorolojiden finansa, biyolojiden mühendisliğe kadar birçok alanda kullanılır. Örneğin, hava durumu 
+                            tahminlerinde başlangıç koşullarındaki küçük hatalar, uzun vadeli öngörüleri zorlaştırır. Amerika’nın keşfi gibi tarihsel 
+                            olaylar, kaos teorisinin sosyal ve tarihsel süreçlere uygulanabilirliğini gösterir.
+                        </p>
+                    </div>
+                    
+                    <div class="term-card">
+                        <h3 class="term-title">Lojistik Harita</h3>
+                        <p>
+                            Lojistik harita, popülasyon dinamiklerini modelleyen bir denklemdir: 
+                            <span class="math-formula">x<sub>n+1</sub> = r × x<sub>n</sub> × (1 - x<sub>n</sub>)</span>. 
+                            <strong>r</strong> büyüme oranını temsil eder:
+                            <ul>
+                                <li><strong>r < 3</strong>: Sabit denge noktası.</li>
+                                <li><strong>3 ≤ r < 3.44949</strong>: Periyodik salınımlar.</li>
+                                <li><strong>3.44949 ≤ r < 3.56995</strong>: Periyot katlanması.</li>
+                                <li><strong>r ≥ 3.56995</strong>: Kaotik davranış.</li>
+                            </ul>
+                            Aşağıdaki kaydırıcı ile <strong>r</strong> değerini değiştirerek kaosa geçişi gözlemleyin.
+                        </p>
+                    </div>
+                    
+                    <div class="chaos-parameter">
+                        <div class="slider-label">
+                            <span>r parametresi</span>
+                            <span id="r-value">3.50</span>
+                        </div>
+                        <input type="range" min="0" max="4" step="0.01" value="3.5" class="slider" id="r-slider" aria-label="Lojistik harita r parametresi">
+                    </div>
+                    
+                    <div class="canvas-container" id="logistic-container">
+                        <canvas id="logistic-map" aria-label="Lojistik harita simülasyonu"></canvas>
+                        <p class="error-message" id="logistic-error" style="display: none;">Lojistik harita yüklenemedi. Lütfen tarayıcınızı kontrol edin.</p>
+                    </div>
+                    
+                    <div class="bifurcation-diagram">
+                        <canvas id="bifurcation" aria-label="Bifurkasyon diyagramı"></canvas>
+                        <p class="error-message" id="bifurcation-error" style="display: none;">Bifurkasyon diyagramı yüklenemedi. Lütfen tarayıcınızı kontrol edin.</p>
+                    </div>
+                    
+                    <div class="chaos-parameter">
+                        <div class="slider-label">
+                            <span>Başlangıç Sapması (Kelebek Etkisi)</span>
+                            <span id="route-value">0.010</span>
+                        </div>
+                        <input type="range" min="0" max="0.1" step="0.001" value="0.01" class="slider" id="route-slider" aria-label="Rota hassasiyeti sapma parametresi">
+                    </div>
+                    
+                    <div class="canvas-container" id="route-container">
+                        <canvas id="route-sensitivity" aria-label="Rota hassasiyeti simülasyonu"></canvas>
+                        <p class="error-message" id="route-error" style="display: none;">Rota hassasiyeti haritası yüklenemedi. Lütfen internet bağlantınızı kontrol edin.</p>
+                    </div>
+                    
+                    <div class="canvas-container" id="lorenz-container">
+                        <canvas id="lorenz-attractor" aria-label="Lorenz attractor simülasyonu"></canvas>
+                        <p class="error-message" id="lorenz-error" style="display: none;">Lorenz attractor yüklenemedi. Lütfen tarayıcınızı kontrol edin.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="kasifler" class="tab-content" role="tabpanel" aria-labelledby="kasifler-tab" aria-hidden="true">
+                <div class="section">
+                    <h2 class="section-title">Amerika'nın Keşfindeki Önemli İsimler</h2>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/World_map_16th_century.jpg/800px-World_map_16th_century.jpg" alt="16. yüzyıl dünya haritası" class="historical-image" loading="lazy">
+                    <p class="gallery-desc">16. yüzyıl dünya haritası. Kaynak: Wikimedia Commons</p>
+                    
+                    <div class="grid grid-2">
+                        <div class="box">
+                            <h3 class="box-title">Kristof Kolomb</h3>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div style="flex: 2;">
+                                    <p><strong>Yaşam:</strong> 1451-1506</p>
+                                    <p><strong>Uyruk:</strong> Ceneviz (İtalya) / İspanya hizmetinde</p>
+                                    <p>
+                                        Kolomb, batıya yelken açarak Asya’ya ulaşmayı hedefledi, ancak 1492’de Bahama Adaları’na ulaştı. 
+                                        Dört seferi, Karayipler ve Orta Amerika’yı haritalandırdı, ancak yerli halklar üzerinde yıkıcı etkiler 
+                                        yarattı. Kolomb’un hatalı navigasyonu, kaos teorisindeki başlangıç koşullarına hassas bağımlılığın bir örneğidir.
+                                    </p>
+                                    <p><strong>Keşif Seferleri:</strong> 1492-93, 1493-96, 1498-1500, 1502-04</p>
+                                </div>
+                                <div class="gallery-item">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Christopher_Columbus_engraving.jpg/800px-Christopher_Columbus_engraving.jpg" alt="Kristof Kolomb portresi" class="historical-image" loading="lazy">
+                                    <p class="gallery-desc">Kristof Kolomb portresi, 16. yüzyıl gravürü. Kaynak: Wikimedia Commons</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="box">
+                            <h3 class="box-title">Amerigo Vespucci</h3>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div style="flex: 2;">
+                                    <p><strong>Yaşam:</strong> 1454-1512</p>
+                                    <p><strong>Uyruk:</strong> Floransa (İtalya) / İspanya ve Portekiz hizmetinde</p>
+                                    <p>
+                                        Vespucci, Güney Amerika kıyılarını keşfetti ve bu toprakların yeni bir kıta olduğunu fark etti. 
+                                        Onun mektupları, kıtanın “Amerika” olarak adlandırılmasına ilham verdi. Vespucci’nin dikkatli haritalandırması, 
+                                        kaotik keşif sürecinde düzen arayışını yansıtır.
+                                    </p>
+                                    <p><strong>Keşif Seferleri:</strong> 1499-1502</p>
+                                </div>
+                                <div class="gallery-item">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Amerigo_Vespucci_portrait.jpg/800px-Amerigo_Vespucci_portrait.jpg" alt="Amerigo Vespucci portresi" class="historical-image" loading="lazy">
+                                    <p class="gallery-desc">Amerigo Vespucci portresi. Kaynak: Wikimedia Commons</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="box">
+                            <h3 class="box-title">Ferdinand Magellan</h3>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div style="flex: 2;">
+                                    <p><strong>Yaşam:</strong> 1480-1521</p>
+                                    <p><strong>Uyruk:</strong> Portekiz / İspanya hizmetinde</p>
+                                    <p>
+                                        Magellan, dünya çevresinde ilk seferi gerçekleştirdi. 1519-1521 seferi, Macellan Boğazı’nı keşfetti ve 
+                                        küresel ticaret yollarını açtı. Magellan’ın ölümü, kaotik koşulların liderler üzerindeki etkisini gösterir.
+                                    </p>
+                                    <p><strong>Keşif Seferi:</strong> 1519-1521</p>
+                                </div>
+                                <div class="gallery-item">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Ferdinand_Magellan_portrait.jpg/800px-Ferdinand_Magellan_portrait.jpg" alt="Ferdinand Magellan portresi" class="historical-image" loading="lazy">
+                                    <p class="gallery-desc">Ferdinand Magellan portresi. Kaynak: Wikimedia Commons</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="box">
+                            <h3 class="box-title">John Cabot</h3>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div style="flex: 2;">
+                                    <p><strong>Yaşam:</strong> 1450-1500</p>
+                                    <p><strong>Uyruk:</strong> Venedik (İtalya) / İngiltere hizmetinde</p>
+                                    <p>
+                                        John Cabot (Giovanni Caboto), 1497’de Kuzey Amerika’ya (muhtemelen Newfoundland) ulaştı. İngiltere adına 
+                                        yaptığı seferler, Kuzey Amerika’nın kolonileşmesinde önemli bir rol oynadı.
+                                    </p>
+                                    <p><strong>Keşif Seferi:</strong> 1497-1498</p>
+                                </div>
+                                <div class="gallery-item">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/John_Cabot_painting.jpg/800px-John_Cabot_painting.jpg" alt="John Cabot portresi" class="historical-image" loading="lazy">
+                                    <p class="gallery-desc">John Cabot portresi. Kaynak: Wikimedia Commons</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="zaman-cizelgesi" class="tab-content" role="tabpanel" aria-labelledby="zaman-cizelgesi-tab" aria-hidden="true">
+                <div class="section">
+                    <h2 class="section-title">Keşifler Zaman Çizelgesi</h2>
+                    <div class="timeline">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot" aria-hidden="true"></div>
+                            <p class="timeline-year">1000</p>
+                            <h3 class="timeline-title">Viking Keşifleri</h3>
+                            <p>Leif Erikson, Kuzey Amerika’ya (Vinland) ulaşır, L’Anse aux Meadows yerleşimi kurulur.</p>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/L%27Anse_aux_Meadows%2C_reconstructed_Viking_settlement.jpg/800px-L%27Anse_aux_Meadows%2C_reconstructed_Viking_settlement.jpg" alt="Viking yerleşimi" class="historical-image" loading="lazy">
+                            <p class="gallery-desc">Viking yerleşimi, Vinland. Kaynak: Wikimedia Commons</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot" aria-hidden="true"></div>
+                            <p class="timeline-year">1492</p>
+                            <h3 class="timeline-title">Kolomb’un İlk Seferi</h3>
+                            <p>Kristof Kolomb, Bahama Adaları’na ulaşır, Avrupa’nın Amerika ile temasını başlatır.</p>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Columbus_Ships.jpg/800px-Columbus_Ships.jpg" alt="Kolomb’un ilk seferi" class="historical-image" loading="lazy">
+                            <p class="gallery-desc">Kolomb’un ilk seferi, 1492. Kaynak: Wikimedia Commons</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot" aria-hidden="true"></div>
+                            <p class="timeline-year">1493-96</p>
+                            <h3 class="timeline-title">Kolomb’un İkinci Seferi</h3>
+                            <p>Kolomb, Hispaniola’da ilk kalıcı Avrupa yerleşimini kurar.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot" aria-hidden="true"></div>
+                            <p class="timeline-year">1494</p>
+                            <h3 class="timeline-title">Tordesillas Antlaşması</h3>
+                            <p>İspanya ve Portekiz, Yeni Dünya’nın paylaşımı için Tordesillas Antlaşması’nı imzaladı.</p>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Tordesillas_Treaty_map.jpg/800px-Tordesillas_Treaty_map.jpg" alt="Tordesillas Antlaşması haritası" class="historical-image" loading="lazy">
+                            <p class="gallery-desc">Tordesillas Antlaşması haritası, 1494. Kaynak: Wikimedia Commons</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot" aria-hidden="true"></div>
+                            <p class="timeline-year">1497</p>
+                            <h3 class="timeline-title">John Cabot’un Seferi</h3>
+                            <p>John Cabot, İngiltere adına Kuzey Amerika’ya (Newfoundland) ulaşır.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot" aria-hidden="true"></div>
+                            <p class="timeline-year">1499-1502</p>
+                            <h3 class="timeline-title">Vespucci’nin Seferleri</h3>
+                            <p>Amerigo Vespucci, Güney Amerika kıyılarını keşfeder ve yeni bir kıta olduğunu fark eder.</p>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Amerigo_Vespucci_portrait.jpg/800px-Amerigo_Vespucci_portrait.jpg" alt="Vespucci’nin keşifleri" class="historical-image" loading="lazy">
+                            <p class="gallery-desc">Amerigo Vespucci portresi. Kaynak: Wikimedia Commons</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot" aria-hidden="true"></div>
+                            <p class="timeline-year">1507</p>
+                            <h3 class="timeline-title">Amerika’nın Adlandırılması</h3>
+                            <p>Martin Waldseemüller, Vespucci’nin onuruna yeni kıtayı “Amerika” olarak adlandırır.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot" aria-hidden="true"></div>
+                            <p class="timeline-year">1519-1521</p>
+                            <h3 class="timeline-title">Magellan’ın Dünya Turu</h3>
+                            <p>Ferdinand Magellan, dünya çevresinde ilk seferi gerçekleştirir ve Macellan Boğazı’nı keşfeder.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="kaotik-analiz" class="tab-content" role="tabpanel" aria-labelledby="kaotik-analiz-tab" aria-hidden="true">
+                <div class="section">
+                    <h2 class="section-title">Kaotik Analiz ve Tarihsel Bağlantılar</h2>
+                    <p class="section-content">
+                        Amerika’nın keşfi, kaos teorisi lensinden bakıldığında, başlangıç koşullarına hassas bağımlılığın çarpıcı bir örneğidir. 
+                        Kolomb’un rotasındaki küçük bir navigasyon hatası, farklı bir kıtaya veya hiçbir yere ulaşmasına neden olabilirdi. 
+                        Yerli halklarla temaslar, ticaret ağları ve kolonizasyon, kaotik sistemlerin öngörülemezliğini yansıtır.
+                    </p>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Columbus_map.jpg/800px-Columbus_map.jpg" alt="Navigasyon haritası" class="historical-image" loading="lazy">
+                    <p class="gallery-desc">Kolomb’un navigasyon haritası, 1492. Kaynak: Wikimedia Commons</p>
+                    
+                    <div class="term-card">
+                        <h3 class="term-title">Başlangıç Koşullarına Hassas Bağımlılık</h3>
+                        <p>
+                            Kaos teorisinde, küçük değişiklikler büyük sonuçlara yol açar. Kolomb’un 1492 seferi sırasında bir rüzgar değişikliği, 
+                            farklı bir adaya ulaşmasına neden olabilirdi. Lyapunov üssü, bu hassasiyetin matematiksel ölçüsüdür.
+                        </p>
+                    </div>
+                    <div class="term-card">
+                        <h3 class="term-title">Fraktal Yapılar</h3>
+                        <p>
+                            Keşiflerin etkileri, fraktal bir şekilde yayıldı: tek bir yolculuk, kolonizasyon, ticaret ve kültürel değişim ağlarına 
+                            dönüştü. Fraktal geometri, bu ölçekler arası bağlantıları modeller.
+                        </p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Mandelbrot_set_image.jpg/800px-Mandelbrot_set_image.jpg" alt="Mandelbrot fraktal seti" class="historical-image" loading="lazy">
+                        <p class="gallery-desc">Mandelbrot fraktal seti, kaos teorisi. Kaynak: Wikimedia Commons</p>
+                    </div>
+                    <div class="term-card">
+                        <h3 class="term-title">Kaotik Sistemlerde Öngörülemezlik</h3>
+                        <p>
+                            Yerli halklarla ilk temaslar, öngörülemez sonuçlar doğurdu. Kolomb’un Hispaniola’daki yerleşimi, ticaret ve çatışma 
+                            dalgalarını tetikledi, kaotik sistemlerin uzun vadeli öngörülemezliğini yansıttı.
+                        </p>
+                    </div>
+                    <div class="term-card">
+                        <h3 class="term-title">Kaos Teorisinin Tarihsel Uygulamaları</h3>
+                        <p>
+                            Kaos teorisi, sadece doğa bilimlerinde değil, tarihsel olayların analizinde de kullanılır. Örneğin, Kolomb Borsası’nın 
+                            ekonomik etkileri, kaotik bir sistemdeki dalgalanmalara benzer şekilde, öngörülemez sonuçlar doğurdu.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-icon" aria-hidden="true">🌀</span>
+                    <h3 class="logo-text">Amerika'nın Keşfi ve Kaos</h3>
+                    <p class="footer-tagline">Geçmişin kaotik izlerini keşfedin</p>
+                </div>
+                <div class="footer-copyright">
+                    <p class="copyright-text">© 2025 Kaos ve Keşif</p>
+                    <p class="copyright-subtext">Tüm hakları saklıdır.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sekme değiştirme işlevi
+        function activateTab(tabId) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                content.setAttribute('aria-hidden', 'true');
+            });
+
+            const tabButtons = document.querySelectorAll('.nav-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            const selectedTab = document.getElementById(tabId);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+                selectedTab.setAttribute('aria-hidden', 'false');
+                const selectedButton = document.querySelector(`[data-tab="${tabId}"]`);
+                if (selectedButton) {
+                    selectedButton.classList.add('active');
+                    selectedButton.setAttribute('aria-selected', 'true');
+                    selectedButton.focus();
+                }
+            }
+        }
+
+        // Sekme navigasyonu ve erişilebilirlik
+        document.addEventListener('DOMContentLoaded', () => {
+            // p5.js'nin yüklendiğini kontrol et
+            if (typeof p5 === 'undefined') {
+                console.error('p5.js kütüphanesi yüklenemedi. Lütfen internet bağlantınızı kontrol edin.');
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.textContent = 'p5.js kütüphanesi yüklenemedi. Lütfen sayfayı yenileyin.';
+                    el.style.display = 'block';
+                });
+                return;
+            }
+
+            const tabButtons = document.querySelectorAll('.nav-button');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    activateTab(tabId);
+                });
+                button.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const tabId = button.getAttribute('data-tab');
+                        activateTab(tabId);
+                    }
+                });
+            });
+
+            // Simülasyonları sırayla başlat
+            try {
+                setupLogisticMap();
+                setupBifurcationDiagram();
+                setupRouteSensitivity();
+                setupLorenzAttractor();
+            } catch (e) {
+                console.error('Simülasyonlar başlatılırken hata oluştu:', e);
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.textContent = 'Simülasyonlar başlatılamadı: ' + e.message;
+                    el.style.display = 'block';
+                });
+            }
+        });
+
+        // Kaydırıcı girişlerini sınırlama
+        function throttle(func, limit) {
+            let inThrottle;
+            return function(...args) {
+                if (!inThrottle) {
+                    func.apply(this, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            };
+        }
+
+        // p5.js Lojistik Harita
+        function setupLogisticMap() {
+            let sketch = function(p) {
+                let r = 3.5;
+                let x = 0.1;
+                let points = [];
+                const rSlider = document.getElementById('r-slider');
+                const rValue = document.getElementById('r-value');
+                const logisticError = document.getElementById('logistic-error');
+
+                p.setup = function() {
+                    try {
+                        const container = document.getElementById('logistic-container');
+                        if (!container) throw new Error('Lojistik container bulunamadı');
+                        let canvas = p.createCanvas(container.offsetWidth, 450);
+                        canvas.parent('logistic-container');
+                        p.background(30, 64, 175);
+                        p.noStroke();
+                        p.fill(255);
+                        p.textSize(16);
+                        p.textFont('Roboto');
+                        updatePoints();
+                        logisticError.style.display = 'none';
+                        console.log('Lojistik harita canvas oluşturuldu');
+                    } catch (e) {
+                        console.error('Lojistik harita setup hatası:', e);
+                        logisticError.textContent = 'Lojistik harita yüklenemedi: ' + e.message;
+                        logisticError.style.display = 'block';
+                    }
+                };
+
+                p.draw = function() {
+                    try {
+                        p.background(30, 64, 175);
+                        p.stroke(255, 100);
+                        p.line(0, p.height / 2, p.width, p.height / 2);
+                        p.line(p.width / 2, 0, p.width / 2, p.height);
+                        p.fill(250, 204, 21);
+                        p.noStroke();
+                        for (let i = 0; i < points.length; i++) {
+                            let px = points[i] * p.width;
+                            let py = p.height - points[i] * p.height;
+                            p.circle(px, py, 5);
+                        }
+                        p.fill(255);
+                        p.textSize(16);
+                        let label = r < 3 ? 'Sabit Nokta' : r < 3.44949 ? 'Periyodik Salınım' : r < 3.56995 ? 'Periyot Katlanması' : 'Kaos Bölgesi';
+                        p.text(label, 20, 30);
+                    } catch (e) {
+                        console.error('Lojistik harita draw hatası:', e);
+                        logisticError.textContent = 'Lojistik harita çizim hatası: ' + e.message;
+                        logisticError.style.display = 'block';
+                    }
+                };
+
+                p.windowResized = function() {
+                    const container = document.getElementById('logistic-container');
+                    if (container) {
+                        p.resizeCanvas(container.offsetWidth, 450);
+                    }
+                };
+
+                function updatePoints() {
+                    points = [];
+                    x = 0.1;
+                    for (let i = 0; i < 20; i++) {
+                        x = r * x * (1 - x);
+                    }
+                    for (let i = 0; i < 50; i++) {
+                        x = r * x * (1 - x);
+                        points.push(x);
+                    }
+                }
+
+                if (rSlider && rValue) {
+                    rSlider.addEventListener('input', throttle(() => {
+                        r = parseFloat(rSlider.value);
+                        rValue.textContent = r.toFixed(2);
+                        updatePoints();
+                    }, 100));
+                }
+            };
+            try {
+                new p5(sketch);
+                console.log('Lojistik harita başlatıldı');
+            } catch (e) {
+                console.error('Lojistik harita başlatma hatası:', e);
+                document.getElementById('logistic-error').textContent = 'p5.js başlatılamadı: ' + e.message;
+                document.getElementById('logistic-error').style.display = 'block';
+            }
+        }
+
+        // p5.js Bifurkasyon Diyagramı
+        function setupBifurcationDiagram() {
+            let sketch = function(p) {
+                const bifurcationError = document.getElementById('bifurcation-error');
+                p.setup = function() {
+                    try {
+                        const container = document.querySelector('.bifurcation-diagram');
+                        if (!container) throw new Error('Bifurkasyon container bulunamadı');
+                        let canvas = p.createCanvas(container.offsetWidth, 450);
+                        canvas.parent('bifurcation');
+                        p.background(30, 64, 175);
+                        p.noStroke();
+                        p.fill(250, 204, 21, 150);
+                        let rStart = 2.4;
+                        let rEnd = 4.0;
+                        let rStep = 0.005;
+                        let iterations = 150;
+                        let skipIterations = 50;
+
+                        for (let r = rStart; r <= rEnd; r += rStep) {
+                            let x = 0.1;
+                            for (let i = 0; i < skipIterations; i++) {
+                                x = r * x * (1 - x);
+                            }
+                            for (let i = 0; i < iterations; i++) {
+                                x = r * x * (1 - x);
+                                let px = p.map(r, rStart, rEnd, 0, p.width);
+                                let py = p.height - x * p.height;
+                                p.circle(px, py, 1);
+                            }
+                        }
+                        p.fill(255);
+                        p.textSize(18);
+                        p.text('Bifurkasyon Diyagramı: Düzen → Kaos', 20, 30);
+                        p.textSize(14);
+                        p.text('Yatay eksen: r parametresi (2.4 - 4.0)', 20, 50);
+                        p.text('Dikey eksen: x değerleri', 20, 70);
+                        p.stroke(255, 100);
+                        p.line(p.map(3, rStart, rEnd, 0, p.width), 0, p.map(3, rStart, rEnd, 0, p.width), p.height);
+                        p.text('r=3: İlk çatallanma', p.map(3, rStart, rEnd, 0, p.width) + 10, 90);
+                        p.line(p.map(3.57, rStart, rEnd, 0, p.width), 0, p.map(3.57, rStart, rEnd, 0, p.width), p.height);
+                        p.text('r=3.57: Kaos başlangıcı', p.map(3.57, rStart, rEnd, 0, p.width) + 10, 110);
+                        bifurcationError.style.display = 'none';
+                        console.log('Bifurkasyon diyagramı canvas oluşturuldu');
+                    } catch (e) {
+                        console.error('Bifurkasyon diyagramı setup hatası:', e);
+                        bifurcationError.textContent = 'Bifurkasyon diyagramı yüklenemedi: ' + e.message;
+                        bifurcationError.style.display = 'block';
+                    }
+                };
+
+                p.windowResized = function() {
+                    const container = document.querySelector('.bifurcation-diagram');
+                    if (container) {
+                        p.resizeCanvas(container.offsetWidth, 450);
+                    }
+                };
+            };
+            try {
+                new p5(sketch);
+                console.log('Bifurkasyon diyagramı başlatıldı');
+            } catch (e) {
+                console.error('Bifurkasyon diyagramı başlatma hatası:', e);
+                document.getElementById('bifurcation-error').textContent = 'p5.js başlatılamadı: ' + e.message;
+                document.getElementById('bifurcation-error').style.display = 'block';
+            }
+        }
+
+        // p5.js Rota Hassasiyeti
+        function setupRouteSensitivity() {
+            let sketch = function(p) {
+                let deviation = 0.01;
+                let img;
+                const routeSlider = document.getElementById('route-slider');
+                const routeValue = document.getElementById('route-value');
+                const routeError = document.getElementById('route-error');
+
+                p.preload = function() {
+                    try {
+                        p.loadImage('https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/World_map_16th_century.jpg/800px-World_map_16th_century.jpg', 
+                            loadedImg => { 
+                                img = loadedImg; 
+                                console.log('Rota hassasiyeti haritası yüklendi');
+                            },
+                            () => { 
+                                console.error('Rota hassasiyeti harita yükleme hatası');
+                                routeError.textContent = 'Harita resmi yüklenemedi. Lütfen internet bağlantınızı kontrol edin.';
+                                routeError.style.display = 'block';
+                            }
+                        );
+                    } catch (e) {
+                        console.error('Rota hassasiyeti preload hatası:', e);
+                        routeError.textContent = 'Harita yüklenemedi: ' + e.message;
+                        routeError.style.display = 'block';
+                    }
+                };
+
+                p.setup = function() {
+                    try {
+                        const container = document.getElementById('route-container');
+                        if (!container) throw new Error('Rota container bulunamadı');
+                        let canvas = p.createCanvas(container.offsetWidth, 450);
+                        canvas.parent('route-container');
+                        p.background(30, 64, 175);
+                        routeError.style.display = 'none';
+                        console.log('Rota hassasiyeti canvas oluşturuldu');
+                    } catch (e) {
+                        console.error('Rota hassasiyeti setup hatası:', e);
+                        routeError.textContent = 'Rota hassasiyeti haritası yüklenemedi: ' + e.message;
+                        routeError.style.display = 'block';
+                    }
+                };
+
+                p.draw = function() {
+                    try {
+                        p.background(30, 64, 175);
+                        if (img) {
+                            p.image(img, 0, 0, p.width, p.height);
+                            p.fill(0, 0, 0, 100);
+                            p.rect(0, 0, p.width, p.height);
+                        } else {
+                            p.fill(255);
+                            p.text('Harita yükleniyor...', 20, 30);
+                        }
+                        p.fill(255);
+                        p.textSize(16);
+                        p.textFont('Roboto');
+                        p.text('İspanya', 60, p.height - 40);
+                        p.text('Bahama Adaları', p.width - 120, p.height / 2);
+
+                        let originalRoute = simulateRoute(-5, 40, 0);
+                        let deviatedRoute = simulateRoute(-5, 40 + deviation * 10, deviation);
+
+                        p.stroke(250, 204, 21);
+                        p.strokeWeight(3);
+                        p.noFill();
+                        p.beginShape();
+                        for (let point of originalRoute) {
+                            p.vertex(point.x, point.y);
+                        }
+                        p.endShape();
+                        p.fill(255);
+                        p.text('Orijinal Rota', originalRoute[originalRoute.length - 1].x + 15, originalRoute[originalRoute.length - 1].y);
+
+                        p.stroke(239, 68, 68);
+                        p.beginShape();
+                        for (let point of deviatedRoute) {
+                            p.vertex(point.x, point.y);
+                        }
+                        p.endShape();
+                        p.fill(255);
+                        p.text('Sapmış Rota', deviatedRoute[deviatedRoute.length - 1].x + 15, deviatedRoute[deviatedRoute.length - 1].y);
+                    } catch (e) {
+                        console.error('Rota hassasiyeti draw hatası:', e);
+                        routeError.textContent = 'Rota hassasiyeti çizim hatası: ' + e.message;
+                        routeError.style.display = 'block';
+                    }
+                };
+
+                p.windowResized = function() {
+                    const container = document.getElementById('route-container');
+                    if (container) {
+                        p.resizeCanvas(container.offsetWidth, 450);
+                    }
+                };
+
+                function simulateRoute(lon0, lat0, deviation) {
+                    let points = [];
+                    let lon = lon0;
+                    let lat = lat0;
+                    let steps = 50;
+                    let dLon = (-75 - lon0) / steps;
+                    for (let i = 0; i < steps; i++) {
+                        lon += dLon;
+                        lat += (p.random() - 0.5) * deviation * 2;
+                        let x = p.map(lon + 180, 0, 360, 0, p.width);
+                        let y = p.height - p.map(lat + 90, 0, 180, 0, p.height);
+                        points.push({ x, y });
+                    }
+                    return points;
+                }
+
+                if (routeSlider && routeValue) {
+                    routeSlider.addEventListener('input', throttle(() => {
+                        deviation = parseFloat(routeSlider.value);
+                        routeValue.textContent = deviation.toFixed(3);
+                    }, 100));
+                }
+            };
+            try {
+                new p5(sketch);
+                console.log('Rota hassasiyeti başlatıldı');
+            } catch (e) {
+                console.error('Rota hassasiyeti başlatma hatası:', e);
+                document.getElementById('route-error').textContent = 'p5.js başlatılamadı: ' + e.message;
+                document.getElementById('route-error').style.display = 'block';
+            }
+        }
+
+        // p5.js Lorenz Attractor
+        function setupLorenzAttractor() {
+            let sketch = function(p) {
+                let sigma = 10;
+                let rho = 28;
+                let beta = 8/3;
+                let x = 0.1;
+                let y = 0;
+                let z = 0;
+                let dt = 0.01;
+                let points = [];
+                const lorenzError = document.getElementById('lorenz-error');
+
+                p.setup = function() {
+                    try {
+                        const container = document.getElementById('lorenz-container');
+                        if (!container) throw new Error('Lorenz container bulunamadı');
+                        let canvas = p.createCanvas(container.offsetWidth, 450, p.WEBGL);
+                        canvas.parent('lorenz-container');
+                        p.background(30, 64, 175);
+                        p.ortho(-p.width/2, p.width/2, -p.height/2, p.height/2, 0, 1000);
+                        lorenzError.style.display = 'none';
+                        console.log('Lorenz attractor canvas oluşturuldu');
+                    } catch (e) {
+                        console.error('Lorenz attractor setup hatası:', e);
+                        lorenzError.textContent = 'Lorenz attractor yüklenemedi: ' + e.message;
+                        lorenzError.style.display = 'block';
+                    }
+                };
+
+                p.draw = function() {
+                    try {
+                        p.background(30, 64, 175);
+                        p.rotateY(p.frameCount * 0.01);
+                        p.scale(5);
+                        p.stroke(250, 204, 21);
+                        p.strokeWeight(0.5);
+                        p.noFill();
+
+                        let dx = (sigma * (y - x)) * dt;
+                        let dy = (x * (rho - z) - y) * dt;
+                        let dz = (x * y - beta * z) * dt;
+                        x += dx;
+                        y += dy;
+                        z += dz;
+
+                        points.push({ x, y, z });
+                        if (points.length > 200) {
+                            points.shift();
+                        }
+
+                        p.beginShape();
+                        for (let point of points) {
+                            p.vertex(point.x, point.y, point.z);
+                        }
+                        p.endShape();
+
+                        p.fill(255);
+                        p.noStroke();
+                        p.textSize(3);
+                        p.text('Lorenz Attractor', -20, -50);
+                    } catch (e) {
+                        console.error('Lorenz attractor draw hatası:', e);
+                        lorenzError.textContent = 'Lorenz attractor çizim hatası: ' + e.message;
+                        lorenzError.style.display = 'block';
+                    }
+                };
+
+                p.windowResized = function() {
+                    const container = document.getElementById('lorenz-container');
+                    if (container) {
+                        p.resizeCanvas(container.offsetWidth, 450);
+                    }
+                };
+            };
+            try {
+                new p5(sketch);
+                console.log('Lorenz attractor başlatıldı');
+            } catch (e) {
+                console.error('Lorenz attractor başlatma hatası:', e);
+                document.getElementById('lorenz-error').textContent = 'p5.js başlatılamadı: ' + e.message;
+                document.getElementById('lorenz-error').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
