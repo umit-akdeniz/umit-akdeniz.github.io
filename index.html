@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amerika'nın Keşfi - İnteraktif Tarih</title>
+    <!-- Fontları ekleyelim -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue-950: #172554;
+            --blue-900: #1e3a8a;
+            --blue-800: #1e40af;
+            --blue-700: #1d4ed8;
+            --yellow-500: #eab308;
+            --yellow-400: #facc15;
+            --gray-300: #d1d5db;
+            --white: #ffffff;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, var(--blue-900), var(--blue-700));
+            color: var(--white);
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--blue-950);
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        @media (min-width: 768px) {
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .logo {
+                margin-bottom: 0;
+            }
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--yellow-400);
+            margin-right: 0.5rem;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--yellow-400);
+        }
+        
+        @media (min-width: 768px) {
+            .logo-text {
+                font-size: 1.75rem;
+            }
+        }
+        
+        nav {
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            nav {
+                width: auto;
+            }
+        }
+        
+        .nav-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .nav-item {
+            margin: 0.25rem;
+        }
+        
+        .nav-button {
+            background-color: var(--blue-800);
+            color: var(--white);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-button:hover {
+            background-color: var(--blue-700);
+        }
+        
+        .nav-button.active {
+            background-color: var(--yellow-500);
+            color: var(--blue-900);
+            font-weight: 600;
+        }
+        
+        main {
+            padding: 1rem;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .space-y {
+            margin-bottom: 2rem;
+        }
+        
+        .section {
+            background-color: var(--blue-800);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--yellow-400);
+            margin-bottom: 1rem;
+        }
+        
+        .section-content {
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .box {
+            background-color: var(--blue-700);
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+        
+        .box-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .grid-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .icon-circle {
+            background-color: var(--blue-600);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .icon {
+            font-size: 2rem;
+            color: var(--yellow-400);
+        }
+        
+        .flex {
+            display: flex;
+        }
+        
+        .items-start {
+            align-items: flex-start;
+        }
+        
+        .icon-small {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+            background-color: var(--blue-600);
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .button {
+            background-color: var(--yellow-500);
+            color: var(--blue-900);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .button:hover {
+            background-color: var(--yellow-400);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2.5rem;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 0.125rem;
+            background-color: var(--yellow-400);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -2.5rem;
+            top: 0.375rem;
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--yellow-400);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .timeline-year {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--yellow-400);
+        }
+        
+        .timeline-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .gallery-item {
+            background-color: var(--blue-700);
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+        
+        .placeholder-image {
+            background-color: var(--gray-300);
+            border-radius: 0.5rem;
+            height: 12rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .gallery-title {
+            font-weight: 600;
+            margin-top: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .gallery-desc {
+            font-size: 0.875rem;
+        }
+        
+        .quote {
+            border-left: 4px solid var(--yellow-400);
+            padding-left: 1rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+        
+        footer {
+            background-color: var(--blue-950);
+            color: var(--white);
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        
+        .footer-logo {
+            margin-bottom: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-logo {
+                margin-bottom: 0;
+            }
+        }
+        
+        .footer-tagline {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+        
+        .footer-copyright {
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-copyright {
+                text-align: right;
+            }
+        }
+        
+        .copyright-text {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+        
+        .copyright-subtext {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🧭</span>
+                    <h1 class="logo-text">Amerika'nın Keşfi</h1>
+                </div>
+                <nav>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <button class="nav-button active" data-tab="anasayfa">Anasayfa</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-button" data-tab="kasifler">Kaşifler</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-button" data-tab="zaman-cizelgesi">Zaman Çizelgesi</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-button" data-tab="haritalar">Haritalar</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-button" data-tab="etkiler">Etkiler</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-button" data-tab="galeri">Galeri</button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Anasayfa -->
+            <div id="anasayfa" class="tab-content active">
+                <div class="space-y">
+                    <section class="section">
+                        <h2 class="section-title">Amerika Kıtasının Keşfi</h2>
+                        <p class="section-content">
+                            Amerika kıtasının Avrupalılar tarafından keşfi, dünya tarihinin akışını değiştiren en önemli olaylardan biridir. 
+                            15. yüzyıl sonlarında başlayan bu süreç, kültürel, ekonomik ve politik açıdan tüm dünyayı etkilemiştir.
+                        </p>
+                        <div class="box">
+                            <h3 class="box-title">Keşif Öncesi Dönem</h3>
+                            <p>
+                                Amerika kıtası, Avrupalıların keşfinden önce yaklaşık 20.000-15.000 yıl önce Asya'dan gelen yerli halklar tarafından 
+                                iskân edilmişti. Maya, Aztek, İnka, Kızılderili gibi gelişmiş medeniyetler kurmuşlardı.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="section">
+                        <h2 class="section-title">İlk Keşifler</h2>
+                        <div class="grid grid-2">
+                            <div class="box">
+                                <h3 class="box-title">Viking Keşifleri</h3>
+                                <p>
+                                    Amerika'ya ulaşan ilk Avrupalılar aslında Vikingler olmuştur. İzlandalı kaşif Leif Erikson, 
+                                    MS 1000 civarında "Vinland" adını verdiği Kuzey Amerika kıyılarına ulaşmıştır. Ancak bu keşifler kalıcı 
+                                    bir etki yaratmamış ve zamanla unutulmuştur.
+                                </p>
+                            </div>
+                            <div class="box">
+                                <h3 class="box-title">Kristof Kolomb ve Sonrası</h3>
+                                <p>
+                                    15. yüzyıl sonunda, İspanya'nın finansmanıyla yola çıkan Kristof Kolomb'un keşfi, dünya tarihinde 
+                                    yeni bir dönemi başlatmıştır. 1492'deki ilk seferinden sonra, yeni kıtaların keşfi ve Avrupa'nın dünya 
+                                    hakimiyeti dönemi başlamıştır.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="section">
+                        <h2 class="section-title">Keşiflerin Sebepleri</h2>
+                        <div class="grid grid-3">
+                            <div class="box center-content">
+                                <div class="icon-circle">
+                                    <span class="icon">⛵</span>
+                                </div>
+                                <h3 class="box-title">Ekonomik Nedenler</h3>
+                                <p>
+                                    Baharat ve değerli mallara doğrudan ulaşmak, altın ve gümüş gibi değerli madenleri elde etmek ve 
+                                    yeni ticaret yolları bulmak için yapılan girişimler.
+                                </p>
+                            </div>
+                            <div class="box center-content">
+                                <div class="icon-circle">
+                                    <span class="icon">🌎</span>
+                                </div>
+                                <h3 class="box-title">Siyasi Nedenler</h3>
+                                <p>
+                                    Avrupa devletleri arasındaki güç mücadelesi ve yeni topraklar elde ederek rakiplerine üstünlük sağlama 
+                                    çabası, imparatorlukların yayılma politikaları.
+                                </p>
+                            </div>
+                            <div class="box center-content">
+                                <div class="icon-circle">
+                                    <span class="icon">📚</span>
+                                </div>
+                                <h3 class="box-title">Bilimsel ve Dini Nedenler</h3>
+                                <p>
+                                    Dünyanın şekli hakkındaki bilimsel merak, Hıristiyanlığı yaymak için yeni bölgelere ulaşma arzusu ve 
+                                    Rönesans'ın getirdiği keşif ruhu.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="section">
+                        <h2 class="section-title">Önemli Kaşifler ve Keşifler</h2>
+                        <div class="grid grid-2">
+                            <div class="box">
+                                <h3 class="box-title">Kristof Kolomb (1451-1506)</h3>
+                                <div class="flex items-start">
+                                    <div class="icon-small">
+                                        <span>👤</span>
+                                    </div>
+                                    <p>
+                                        İspanya adına 1492'de yola çıktı ve Bahama Adaları'na ulaştı. Toplam dört sefer düzenleyerek 
+                                        Karayipler, Orta Amerika ve Güney Amerika kıyılarını keşfetti. Ölümüne kadar Asya'ya ulaştığını 
+                                        düşündü.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <h3 class="box-title">Amerigo Vespucci (1454-1512)</h3>
+                                <div class="flex items-start">
+                                    <div class="icon-small">
+                                        <span>👤</span>
+                                    </div>
+                                    <p>
+                                        İtalyan denizci, Güney Amerika kıyılarını keşfetti ve yeni bir kıta keşfedildiğini fark eden ilk 
+                                        kişilerden biriydi. Kıta, onun adından esinlenerek "Amerika" olarak adlandırıldı.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <button class="button" onclick="activateTab('kasifler')">Tüm Kaşifleri Keşfet</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Kaşifler -->
+            <div id="kasifler" class="tab-content">
+                <div class="section">
+                    <h2 class="section-title">Amerika'nın Keşfindeki Önemli İsimler</h2>
+                    
+                    <div class="grid grid-2">
+                        <div class="box">
+                            <h3 class="box-title">Kristof Kolomb</h3>
+                            <div style="display: flex; flex-direction: column;">
+                                <div style="flex: 2; padding-right: 1rem;">
+                                    <p><strong>Yaşam:</strong> 1451-1506</p>
+                                    <p><strong>Uyruk:</strong> Ceneviz (İtalya) / İspanya hizmetinde</p>
+                                    <p>
+                                        Dünyanın küresel olduğuna ve batıya doğru yelken açarak Hindistan'a ulaşabileceğine inanıyordu. 
+                                        1492'de İspanya Kraliçesi Isabella ve Kral Ferdinand'ın desteğiyle çıktığı yolculukta Amerika kıtasına ulaştı. 
+                                        Ölümüne kadar Asya'ya ulaştığını düşündü.
+                                    </p>
+                                    <p><strong>Keşif Seferleri:</strong> 1492-93, 1493-96, 1498-1500, 1502-04</p>
+                                </div>
+                                <div style="flex: 1; margin-top: 1rem; display: flex; justify-content: center;">
+                                    <div style="background-color: #2563eb; padding: 0.5rem; border-radius: 0.5rem; text-align: center;">
+                                        <div class="placeholder-image">
+                                            <span style="font-size: 3rem;">👤</span>
+                                        </div>
+                                        <p style="margin-top: 0.5rem; font-size: 0.875rem;">Kolomb portresi</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="box">
+                            <h3 class="box-title">Amerigo Vespucci</h3>
+                            <div style="display: flex; flex-direction: column;">
+                                <div style="flex: 2; padding-right: 1rem;">
+                                    <p><strong>Yaşam:</strong> 1454-1512</p>
+                                    <p><strong>Uyruk:</strong> Floransa (İtalya) / İspanya ve Portekiz hizmetinde</p>
+                                    <p>
+                                        Kolomb'un aksine, keşfettiği yerlerin yeni bir kıta olduğunu fark eden ilk kişilerden biriydi. 
+                                        Güney Amerika kıyılarını keşfetti ve seyahatlerini anlattığı mektupları Avrupa'da büyük ilgi gördü. 
+                                        Kıta, onun adından esinlenerek "Amerika" olarak adlandırıldı.
+                                    </p>
+                                    <p><strong>Keşif Seferleri:</strong> 1499-1500, 1501-1502</p>
+                                </div>
+                                <div style="flex: 1; margin-top: 1rem; display: flex; justify-content: center;">
+                                    <div style="background-color: #2563eb; padding: 0.5rem; border-radius: 0.5rem; text-align: center;">
+                                        <div class="placeholder-image">
+                                            <span style="font-size: 3rem;">👤</span>
+                                        </div>
+                                        <p style="margin-top: 0.5rem; font-size: 0.875rem;">Vespucci portresi</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-2" style="margin-top: 1.5rem;">
+                        <div class="box">
+                            <h3 class="box-title">John Cabot (Giovanni Caboto)</h3>
+                            <p><strong>Yaşam:</strong> 1450-1500</p>
+                            <p><strong>Uyruk:</strong> Venedik (İtalya) / İngiltere hizmetinde</p>
+                            <p>
+                                İngiltere Kralı VII. Henry adına 1497'de Kuzey Amerika'ya ulaşan ilk Avrupalılardan biriydi. 
+                                Newfoundland veya Nova Scotia'ya çıkarak bu toprakları İngiltere adına sahiplendi. 
+                                Keşifleri, İngiltere'nin Kuzey Amerika'daki kolonileşme hareketlerinin başlangıcı sayılır.
+                            </p>
+                            <p><strong>Keşif Seferleri:</strong> 1497, 1498</p>
+                        </div>
+                        
+                        <div class="box">
+                            <h3 class="box-title">Hernán Cortés</h3>
+                            <p><strong>Yaşam:</strong> 1485-1547</p>
+                            <p><strong>Uyruk:</strong> İspanyol</p>
+                            <p>
+                                1519'da küçük bir orduyla Meksika'ya çıkan Cortés, yerel düşmanlıkları kullanarak ve hastalıkların da 
+                                yardımıyla güçlü Aztek İmparatorluğu'nu 1521'de yıktı. Tenochtitlán'ın düşüşü, İspanyolların 
+                                Meksika'yı ele geçirmesini sağladı.
+                            </p>
+                            <p><strong>Başarısı:</strong> Aztek İmparatorluğu'nun fethi ve Meksika'nın kolonileştirilmesi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zaman Çizelgesi -->
+            <div id="zaman-cizelgesi" class="tab-content">
+                <div class="section">
+                    <h2 class="section-title">Amerika'nın Keşfi Zaman Çizelgesi</h2>
+                    
+                    <div class="timeline">
+                        <div class="timeline-line"></div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot">
+                                <span style="font-size: 1rem; color: #1e40af;">📅</span>
+                            </div>
+                            <div class="box">
+                                <h3 class="timeline-year">MÖ 15000-12000</h3>
+                                <h4 class="timeline-title">İlk İnsan Yerleşimleri</h4>
+                                <p>Bering Boğazı üzerinden Asya'dan gelen ilk insan toplulukları Amerika kıtasına yerleşti.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot">
+                                <span style="font-size: 1rem; color: #1e40af;">📅</span>
+                            </div>
+                            <div class="box">
+                                <h3 class="timeline-year">986</h3>
+                                <h4 class="timeline-title">Viking Seferleri</h4>
+                                <p>Erik Kızıl'ın oğlu Leif Erikson Kuzey Amerika'ya (Vinland) ayak basan ilk Avrupalı oldu.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot">
+                                <span style="font-size: 1rem; color: #1e40af;">📅</span>
+                            </div>
+                            <div class="box">
+                                <h3 class="timeline-year">1492</h3>
+                                <h4 class="timeline-title">Kolomb'un İlk Seyahati</h4>
+                                <p>Kristof Kolomb, Santa Maria, Niña ve Pinta gemileriyle 12 Ekim 1492'de Bahamalar'a ulaştı.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot">
+                                <span style="font-size: 1rem; color: #1e40af;">📅</span>
+                            </div>
+                            <div class="box">
+                                <h3 class="timeline-year">1507</h3>
+                                <h4 class="timeline-title">Amerika Adının Kullanılması</h4>
+                                <p>Martin Waldseemüller'in dünya haritasında yeni kıtaya 'Amerika' adını vermesi.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot">
+                                <span style="font-size: 1rem; color: #1e40af;">📅</span>
+                            </div>
+                            <div class="box">
+                                <h3 class="timeline-year">1521</h3>
+                                <h4 class="timeline-title">Aztek İmparatorluğu'nun Yıkılışı</h4>
+                                <p>Hernán Cortés'in Aztek İmparatorluğu'nu yıkarak Meksika'yı İspanya'ya bağlaması.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Haritalar -->
+            <div id="haritalar" class="tab-content">
+                <div class="section">
+                    <h2 class="section-title">Tarihsel Haritalar ve Keşif Rotaları</h2>
+                    
+                    <div class="grid grid-2">
+                        <div class="box">
+                            <h3 class="box-title">Kolomb'un Rotaları</h3>
+                            <div class="placeholder-image">
+                                <span style="font-size: 3rem;">🗺️</span>
+                            </div>
+                            <div style="margin-top: 0.75rem;">
+                                <h4 style="font-weight: 600;">Dört Seyahat:</h4>
+                                <ul style="list-style-type: disc; padding-left: 1.5rem;">
+                                    <li>1492-1493: Bahamalar, Küba, Hispaniola</li>
+                                    <li>1493-1496: Karayipler</li>
+                                    <li>1498-1500: Trinidad, Venezuela</li>
+                                    <li>1502-1504: Honduras'tan Panama'ya</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="box">
+                            <h3 class="box-title">Waldseemüller<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amerika'nın Keşfi - İnteraktif Tarih</title>
+    <!-- Fontları ekleyelim -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue-950: #172554;
+            --blue-900: #1e3a8a;
+            --blue-800: #1e40af;
+            --blue-700: #1d4ed8;
+            --yellow-500: #eab308;
+            --yellow-400: #facc15;
+            --gray-300: #d1d5db;
+            --white: #ffffff;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, var(--blue-900), var(--blue-700));
+            color: var(--white);
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--blue-950);
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        @media (min-width: 768px) {
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .logo {
+                margin-bottom: 0;
+            }
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--yellow-400);
+            margin-right: 0.5rem;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--yellow-400);
+        }
+        
+        @media (min-width: 768px) {
+            .logo-text {
+                font-size: 1.75rem;
+            }
+        }
+        
+        nav {
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            nav {
+                width: auto;
+            }
+        }
+        
+        .nav-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .nav-item {
+            margin: 0.25rem;
+        }
+        
+        .nav-button {
+            background-color: var(--blue-800);
+            color: var(--white);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-button:hover {
+            background-color: var(--blue-700);
+        }
+        
+        .nav-button.active {
+            background-color: var(--yellow-500);
+            color: var(--blue-900);
+            font-weight: 600;
+        }
+        
+        main {
+            padding: 1rem;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .space-y {
+            margin-bottom: 2rem;
+        }
+        
+        .section {
+            background-color: var(--blue-800);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--yellow-400);
+            margin-bottom: 1rem;
+        }
+        
+        .section-content {
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .box {
+            background-color: var(--blue-700);
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+        
+        .box-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .grid-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .icon-circle {
+            background-color: var(--blue-600);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .icon {
+            font-size: 2rem;
+            color: var(--yellow-400);
+        }
+        
+        .flex {
+            display: flex;
+        }
+        
+        .items-start {
+            align-items: flex-start;
+        }
+        
+        .icon-small {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+            background-color: var(--blue-600);
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .button {
+            background-color: var(--yellow-500);
+            color: var(--blue-900);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .button:hover {
+            background-color: var(--yellow-400);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2.5rem;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 0.125rem;
+            background-color: var(--yellow-400);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -2.5rem;
+            top: 0.375rem;
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--yellow-400);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .timeline-year {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--yellow-400);
+        }
+        
+        .timeline-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .gallery-item {
+            background-color: var(--blue-700);
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+        
+        .placeholder-image {
+            background-color: var(--gray-300);
+            border-radius: 0.5rem;
+            height: 12rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .gallery-title {
+            font-weight: 600;
+            margin-top: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .gallery-desc {
+            font-size: 0.875rem;
+        }
+        
+        .quote {
+            border-left: 4px solid var(--yellow-400);
+            padding-left: 1rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+        
+        footer {
+            background-color: var(--blue-950);
+            color: var(--white);
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        
+        .footer-logo {
+            margin-bottom: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-logo {
+                margin-bottom: 0;
+            }
+        }
+        
+        .footer-tagline {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+        
+        .footer-copyright {
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-copyright {
+                text-align: right;
+            }
+        }
+        
+        .copyright-text {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+        
+        .copyright-subtext {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🧭</span>
+                    <h1 class="logo-text">Amerika'nın Keşfi</h1>
+                </div>
+                <nav>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <button class="nav-button active" data-tab="anasayfa">Anasayfa</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-button" data-tab="kasifler">Kaşifler</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-button" data-tab="zaman-cizelgesi">Zaman Çizelgesi</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-button" data-tab="haritalar">Haritalar</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-button" data-tab="etkiler">Etkiler</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-button" data-tab="galeri">Galeri</button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Anasayfa -->
+            <div id="anasayfa" class="tab-content active">
+                <div class="space-y">
+                    <section class="section">
+                        <h2 class="section-title">Amerika Kıtasının Keşfi</h2>
+                        <p class="section-content">
+                            Amerika kıtasının Avrupalılar tarafından keşfi, dünya tarihinin akışını değiştiren en önemli olaylardan biridir. 
+                            15. yüzyıl sonlarında başlayan bu süreç, kültürel, ekonomik ve politik açıdan tüm dünyayı etkilemiştir.
+                        </p>
+                        <div class="box">
+                            <h3 class="box-title">Keşif Öncesi Dönem</h3>
+                            <p>
+                                Amerika kıtası, Avrupalıların keşfinden önce yaklaşık 20.000-15.000 yıl önce Asya'dan gelen yerli halklar tarafından 
+                                iskân edilmişti. Maya, Aztek, İnka, Kızılderili gibi gelişmiş medeniyetler kurmuşlardı.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="section">
+                        <h2 class="section-title">İlk Keşifler</h2>
+                        <div class="grid grid-2">
+                            <div class="box">
+                                <h3 class="box-title">Viking Keşifleri</h3>
+                                <p>
+                                    Amerika'ya ulaşan ilk Avrupalılar aslında Vikingler olmuştur. İzlandalı kaşif Leif Erikson, 
+                                    MS 1000 civarında "Vinland" adını verdiği Kuzey Amerika kıyılarına ulaşmıştır. Ancak bu keşifler kalıcı 
+                                    bir etki yaratmamış ve zamanla unutulmuştur.
+                                </p>
+                            </div>
+                            <div class="box">
+                                <h3 class="box-title">Kristof Kolomb ve Sonrası</h3>
+                                <p>
+                                    15. yüzyıl sonunda, İspanya'nın finansmanıyla yola çıkan Kristof Kolomb'un keşfi, dünya tarihinde 
+                                    yeni bir dönemi başlatmıştır. 1492'deki ilk seferinden sonra, yeni kıtaların keşfi ve Avrupa'nın dünya 
+                                    hakimiyeti dönemi başlamıştır.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="section">
+                        <h2 class="section-title">Keşiflerin Sebepleri</h2>
+                        <div class="grid grid-3">
+                            <div class="box center-content">
+                                <div class="icon-circle">
+                                    <span class="icon">⛵</span>
+                                </div>
+                                <h3 class="box-title">Ekonomik Nedenler</h3>
+                                <p>
+                                    Baharat ve değerli mallara doğrudan ulaşmak, altın ve gümüş gibi değerli madenleri elde etmek ve 
+                                    yeni ticaret yolları bulmak için yapılan girişimler.
+                                </p>
+                            </div>
+                            <div class="box center-content">
+                                <div class="icon-circle">
+                                    <span class="icon">🌎</span>
+                                </div>
+                                <h3 class="box-title">Siyasi Nedenler</h3>
+                                <p>
+                                    Avrupa devletleri arasındaki güç mücadelesi ve yeni topraklar elde ederek rakiplerine üstünlük sağlama 
+                                    çabası, imparatorlukların yayılma politikaları.
+                                </p>
+                            </div>
+                            <div class="box center-content">
+                                <div class="icon-circle">
+                                    <span class="icon">📚</span>
+                                </div>
+                                <h3 class="box-title">Bilimsel ve Dini Nedenler</h3>
+                                <p>
+                                    Dünyanın şekli hakkındaki bilimsel merak, Hıristiyanlığı yaymak için yeni bölgelere ulaşma arzusu ve 
+                                    Rönesans'ın getirdiği keşif ruhu.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="section">
+                        <h2 class="section-title">Önemli Kaşifler ve Keşifler</h2>
+                        <div class="grid grid-2">
+                            <div class="box">
+                                <h3 class="box-title">Kristof Kolomb (1451-1506)</h3>
+                                <div class="flex items-start">
+                                    <div class="icon-small">
+                                        <span>👤</span>
+                                    </div>
+                                    <p>
+                                        İspanya adına 1492'de yola çıktı ve Bahama Adaları'na ulaştı. Toplam dört sefer düzenleyerek 
+                                        Karayipler, Orta Amerika ve Güney Amerika kıyılarını keşfetti. Ölümüne kadar Asya'ya ulaştığını 
+                                        düşündü.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <h3 class="box-title">Amerigo Vespucci (1454-1512)</h3>
+                                <div class="flex items-start">
+                                    <div class="icon-small">
+                                        <span>👤</span>
+                                    </div>
+                                    <p>
+                                        İtalyan denizci, Güney Amerika kıyılarını keşfetti ve yeni bir kıta keşfedildiğini fark eden ilk 
+                                        kişilerden biriydi. Kıta, onun adından esinlenerek "Amerika" olarak adlandırıldı.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <button class="button" onclick="activateTab('kasifler')">Tüm Kaşifleri Keşfet</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Kaşifler -->
+            <div id="kasifler" class="tab-content">
+                <div class="section">
+                    <h2 class="section-title">Amerika'nın Keşfindeki Önemli İsimler</h2>
+                    
+                    <div class="grid grid-2">
+                        <div class="box">
+                            <h3 class="box-title">Kristof Kolomb</h3>
+                            <div style="display: flex; flex-direction: column;">
+                                <div style="flex: 2; padding-right: 1rem;">
+                                    <p><strong>Yaşam:</strong> 1451-1506</p>
+                                    <p><strong>Uyruk:</strong> Ceneviz (İtalya) / İspanya hizmetinde</p>
+                                    <p>
+                                        Dünyanın küresel olduğuna ve batıya doğru yelken açarak Hindistan'a ulaşabileceğine inanıyordu. 
+                                        1492'de İspanya Kraliçesi Isabella ve Kral Ferdinand'ın desteğiyle çıktığı yolculukta Amerika kıtasına ulaştı. 
+                                        Ölümüne kadar Asya'ya ulaştığını düşündü.
+                                    </p>
+                                    <p><strong>Keşif Seferleri:</strong> 1492-93, 1493-96, 1498-1500, 1502-04</p>
+                                </div>
+                                <div style="flex: 1; margin-top: 1rem; display: flex; justify-content: center;">
+                                    <div style="background-color: #2563eb; padding: 0.5rem; border-radius: 0.5rem; text-align: center;">
+                                        <div class="placeholder-image">
+                                            <span style="font-size: 3rem;">👤</span>
+                                        </div>
+                                        <p style="margin-top: 0.5rem; font-size: 0.875rem;">Kolomb portresi</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="box">
+                            <h3 class="box-title">Amerigo Vespucci</h3>
+                            <div style="display: flex; flex-direction: column;">
+                                <div style="flex: 2; padding-right: 1rem;">
+                                    <p><strong>Yaşam:</strong> 1454-1512</p>
+                                    <p><strong>Uyruk:</strong> Floransa (İtalya) / İspanya ve Portekiz hizmetinde</p>
+                                    <p>
+                                        Kolomb'un aksine, keşfettiği yerlerin yeni bir kıta olduğunu fark eden ilk kişilerden biriydi. 
+                                        Güney Amerika kıyılarını keşfetti ve seyahatlerini anlattığı mektupları Avrupa'da büyük ilgi gördü. 
+                                        Kıta, onun adından esinlenerek "Amerika" olarak adlandırıldı.
+                                    </p>
+                                    <p><strong>Keşif Seferleri:</strong> 1499-1500, 1501-1502</p>
+                                </div>
+                                <div style="flex: 1; margin-top: 1rem; display: flex; justify-content: center;">
+                                    <div style="background-color: #2563eb; padding: 0.5rem; border-radius: 0.5rem; text-align: center;">
+                                        <div class="placeholder-image">
+                                            <span style="font-size: 3rem;">👤</span>
+                                        </div>
+                                        <p style="margin-top: 0.5rem; font-size: 0.875rem;">Vespucci portresi</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-2" style="margin-top: 1.5rem;">
+                        <div class="box">
+                            <h3 class="box-title">John Cabot (Giovanni Caboto)</h3>
+                            <p><strong>Yaşam:</strong> 1450-1500</p>
+                            <p><strong>Uyruk:</strong> Venedik (İtalya) / İngiltere hizmetinde</p>
+                            <p>
+                                İngiltere Kralı VII. Henry adına 1497'de Kuzey Amerika'ya ulaşan ilk Avrupalılardan biriydi. 
+                                Newfoundland veya Nova Scotia'ya çıkarak bu toprakları İngiltere adına sahiplendi. 
+                                Keşifleri, İngiltere'nin Kuzey Amerika'daki kolonileşme hareketlerinin başlangıcı sayılır.
+                            </p>
+                            <p><strong>Keşif Seferleri:</strong> 1497, 1498</p>
+                        </div>
+                        
+                        <div class="box">
+                            <h3 class="box-title">Hernán Cortés</h3>
+                            <p><strong>Yaşam:</strong> 1485-1547</p>
+                            <p><strong>Uyruk:</strong> İspanyol</p>
+                            <p>
+                                1519'da küçük bir orduyla Meksika'ya çıkan Cortés, yerel düşmanlıkları kullanarak ve hastalıkların da 
+                                yardımıyla güçlü Aztek İmparatorluğu'nu 1521'de yıktı. Tenochtitlán'ın düşüşü, İspanyolların 
+                                Meksika'yı ele geçirmesini sağladı.
+                            </p>
+                            <p><strong>Başarısı:</strong> Aztek İmparatorluğu'nun fethi ve Meksika'nın kolonileştirilmesi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zaman Çizelgesi -->
+            <div id="zaman-cizelgesi" class="tab-content">
+                <div class="section">
+                    <h2 class="section-title">Amerika'nın Keşfi Zaman Çizelgesi</h2>
+                    
+                    <div class="timeline">
+                        <div class="timeline-line"></div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot">
+                                <span style="font-size: 1rem; color: #1e40af;">📅</span>
+                            </div>
+                            <div class="box">
+                                <h3 class="timeline-year">MÖ 15000-12000</h3>
+                                <h4 class="timeline-title">İlk İnsan Yerleşimleri</h4>
+                                <p>Bering Boğazı üzerinden Asya'dan gelen ilk insan toplulukları Amerika kıtasına yerleşti.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot">
+                                <span style="font-size: 1rem; color: #1e40af;">📅</span>
+                            </div>
+                            <div class="box">
+                                <h3 class="timeline-year">986</h3>
+                                <h4 class="timeline-title">Viking Seferleri</h4>
+                                <p>Erik Kızıl'ın oğlu Leif Erikson Kuzey Amerika'ya (Vinland) ayak basan ilk Avrupalı oldu.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot">
+                                <span style="font-size: 1rem; color: #1e40af;">📅</span>
+                            </div>
+                            <div class="box">
+                                <h3 class="timeline-year">1492</h3>
+                                <h4 class="timeline-title">Kolomb'un İlk Seyahati</h4>
+                                <p>Kristof Kolomb, Santa Maria, Niña ve Pinta gemileriyle 12 Ekim 1492'de Bahamalar'a ulaştı.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot">
+                                <span style="font-size: 1rem; color: #1e40af;">📅</span>
+                            </div>
+                            <div class="box">
+                                <h3 class="timeline-year">1507</h3>
+                                <h4 class="timeline-title">Amerika Adının Kullanılması</h4>
+                                <p>Martin Waldseemüller'in dünya haritasında yeni kıtaya 'Amerika' adını vermesi.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot">
+                                <span style="font-size: 1rem; color: #1e40af;">📅</span>
+                            </div>
+                            <div class="box">
+                                <h3 class="timeline-year">1521</h3>
+                                <h4 class="timeline-title">Aztek İmparatorluğu'nun Yıkılışı</h4>
+                                <p>Hernán Cortés'in Aztek İmparatorluğu'nu yıkarak Meksika'yı İspanya'ya bağlaması.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Haritalar -->
+            <div id="haritalar" class="tab-content">
+                <div class="section">
+                    <h2 class="section-title">Tarihsel Haritalar ve Keşif Rotaları</h2>
+                    
+                    <div class="grid grid-2">
+                        <div class="box">
+                            <h3 class="box-title">Kolomb'un Rotaları</h3>
+                            <div class="placeholder-image">
+                                <span style="font-size: 3rem;">🗺️</span>
+                            </div>
+                            <div style="margin-top: 0.75rem;">
+                                <h4 style="font-weight: 600;">Dört Seyahat:</h4>
+                                <ul style="list-style-type: disc; padding-left: 1.5
