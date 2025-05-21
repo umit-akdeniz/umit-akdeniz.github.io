@@ -19,7 +19,7 @@
             --green-500: #22c55e;
             --purple-500: #a855f7;
         }
-        
+
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -27,74 +27,81 @@
             background: linear-gradient(to bottom, var(--blue-900), var(--blue-700));
             color: var(--white);
             min-height: 100vh;
+            transition: background-color 0.3s ease;
         }
-        
+
         .container {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            box-sizing: border-box;
         }
-        
+
         header {
             background-color: var(--blue-950);
             padding: 1rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         .header-content {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        
+
         @media (min-width: 768px) {
             .header-content {
                 flex-direction: row;
                 justify-content: space-between;
             }
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
             margin-bottom: 1rem;
         }
-        
+
         @media (min-width: 768px) {
             .logo {
                 margin-bottom: 0;
             }
         }
-        
+
         .logo-icon {
             font-size: 2rem;
             color: var(--yellow-400);
             margin-right: 0.5rem;
+            transition: transform 0.3s ease;
         }
-        
+
+        .logo-icon:hover {
+            transform: rotate(20deg);
+        }
+
         .logo-text {
             font-size: 1.5rem;
             font-weight: bold;
             color: var(--yellow-400);
         }
-        
+
         @media (min-width: 768px) {
             .logo-text {
                 font-size: 1.75rem;
             }
         }
-        
+
         nav {
             width: 100%;
         }
-        
+
         @media (min-width: 768px) {
             nav {
                 width: auto;
             }
         }
-        
+
         .nav-list {
             display: flex;
             flex-wrap: wrap;
@@ -103,11 +110,11 @@
             padding: 0;
             margin: 0;
         }
-        
+
         .nav-item {
             margin: 0.25rem;
         }
-        
+
         .nav-button {
             background-color: var(--blue-800);
             color: var(--white);
@@ -116,35 +123,45 @@
             padding: 0.5rem 1rem;
             font-size: 1rem;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
-        
+
         .nav-button:hover {
             background-color: var(--blue-700);
+            transform: translateY(-2px);
         }
-        
+
+        .nav-button:focus {
+            outline: 2px solid var(--yellow-400);
+            outline-offset: 2px;
+        }
+
         .nav-button.active {
             background-color: var(--yellow-500);
             color: var(--blue-900);
             font-weight: 600;
         }
-        
+
         main {
             padding: 1rem;
+            transition: opacity 0.3s ease;
         }
-        
+
         .tab-content {
             display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        
+
         .tab-content.active {
             display: block;
+            opacity: 1;
         }
-        
+
         .space-y {
             margin-bottom: 2rem;
         }
-        
+
         .section {
             background-color: var(--blue-800);
             border-radius: 0.75rem;
@@ -152,54 +169,55 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 2rem;
         }
-        
+
         .section-title {
             font-size: 1.5rem;
             font-weight: bold;
             color: var(--yellow-400);
             margin-bottom: 1rem;
         }
-        
+
         .section-content {
             font-size: 1.125rem;
             margin-bottom: 1.5rem;
+            line-height: 1.6;
         }
-        
+
         .box {
             background-color: var(--blue-700);
             border-radius: 0.5rem;
             padding: 1rem;
         }
-        
+
         .box-title {
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
-        
+
         .grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 1.5rem;
         }
-        
+
         @media (min-width: 768px) {
             .grid-2 {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
+
             .grid-3 {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
-        
+
         .center-content {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
         }
-        
+
         .icon-circle {
             background-color: var(--blue-600);
             border-radius: 50%;
@@ -209,21 +227,26 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 0.75rem;
+            transition: transform 0.3s ease;
         }
-        
+
+        .icon-circle:hover {
+            transform: scale(1.1);
+        }
+
         .icon {
             font-size: 2rem;
             color: var(--yellow-400);
         }
-        
+
         .flex {
             display: flex;
         }
-        
+
         .items-start {
             align-items: flex-start;
         }
-        
+
         .icon-small {
             font-size: 1.5rem;
             margin-right: 0.75rem;
@@ -235,7 +258,7 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .button {
             background-color: var(--yellow-500);
             color: var(--blue-900);
@@ -245,18 +268,24 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
-        
+
         .button:hover {
             background-color: var(--yellow-400);
+            transform: translateY(-2px);
         }
-        
+
+        .button:focus {
+            outline: 2px solid var(--yellow-400);
+            outline-offset: 2px;
+        }
+
         .timeline {
             position: relative;
             padding-left: 2.5rem;
         }
-        
+
         .timeline-line {
             position: absolute;
             left: 1rem;
@@ -265,12 +294,12 @@
             width: 0.125rem;
             background-color: var(--yellow-400);
         }
-        
+
         .timeline-item {
             position: relative;
             margin-bottom: 2rem;
         }
-        
+
         .timeline-dot {
             position: absolute;
             left: -2.5rem;
@@ -282,31 +311,41 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.3s ease;
         }
-        
+
+        .timeline-dot:hover {
+            transform: scale(1.2);
+        }
+
         .timeline-year {
             font-size: 1.25rem;
             font-weight: 600;
             color: var(--yellow-400);
         }
-        
+
         .timeline-title {
             font-size: 1.125rem;
             font-weight: 500;
         }
-        
+
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1rem;
         }
-        
+
         .gallery-item {
             background-color: var(--blue-700);
             border-radius: 0.5rem;
             padding: 1rem;
+            transition: transform 0.3s ease;
         }
-        
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+
         .gallery-image {
             width: 100%;
             height: 12rem;
@@ -314,81 +353,81 @@
             border-radius: 0.5rem;
             margin-bottom: 0.75rem;
         }
-        
+
         .gallery-title {
             font-weight: 600;
             margin-top: 0.75rem;
             margin-bottom: 0.25rem;
         }
-        
+
         .gallery-desc {
             font-size: 0.875rem;
         }
-        
+
         .quote {
             border-left: 4px solid var(--yellow-400);
             padding-left: 1rem;
             margin-top: 0.5rem;
             font-style: italic;
         }
-        
+
         footer {
             background-color: var(--blue-950);
             color: var(--white);
             padding: 1.5rem;
             margin-top: 2rem;
         }
-        
+
         .footer-content {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        
+
         @media (min-width: 768px) {
             .footer-content {
                 flex-direction: row;
                 justify-content: space-between;
             }
         }
-        
+
         .footer-logo {
             margin-bottom: 1rem;
         }
-        
+
         @media (min-width: 768px) {
             .footer-logo {
                 margin-bottom: 0;
             }
         }
-        
+
         .footer-tagline {
             margin-top: 0.5rem;
             font-size: 0.875rem;
             color: #9ca3af;
         }
-        
+
         .footer-copyright {
             text-align: center;
         }
-        
+
         @media (min-width: 768px) {
             .footer-copyright {
                 text-align: right;
             }
         }
-        
+
         .copyright-text {
             font-size: 0.875rem;
             color: #9ca3af;
         }
-        
+
         .copyright-subtext {
             font-size: 0.75rem;
             color: #6b7280;
             margin-top: 0.25rem;
         }
-        
+
         .canvas-container {
             width: 100%;
             height: 400px;
@@ -398,17 +437,19 @@
             overflow: hidden;
             position: relative;
         }
-        
+
         .slider-container {
             margin: 1rem 0;
         }
-        
+
         .slider-label {
             display: flex;
             justify-content: space-between;
             margin-bottom: 0.25rem;
+            font-size: 1rem;
+            color: var(--yellow-400);
         }
-        
+
         .slider {
             width: 100%;
             -webkit-appearance: none;
@@ -417,8 +458,13 @@
             border-radius: 0.25rem;
             background: #4b5563;
             outline: none;
+            transition: background-color 0.3s ease;
         }
-        
+
+        .slider:focus {
+            background: #6b7280;
+        }
+
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -427,17 +473,22 @@
             border-radius: 50%;
             background: var(--yellow-400);
             cursor: pointer;
+            transition: transform 0.2s ease;
         }
-        
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
         .chaos-parameter {
             margin-bottom: 1.5rem;
         }
-        
+
         .highlight-text {
             color: var(--yellow-400);
             font-weight: 600;
         }
-        
+
         .butterfly-effect {
             position: relative;
             overflow: hidden;
@@ -445,7 +496,7 @@
             border-radius: 0.5rem;
             background-color: rgba(29, 78, 216, 0.7);
         }
-        
+
         .butterfly-path {
             position: absolute;
             top: 0;
@@ -455,7 +506,7 @@
             pointer-events: none;
             z-index: 0;
         }
-        
+
         .butterfly {
             position: absolute;
             font-size: 1.5rem;
@@ -463,7 +514,7 @@
             animation: flutter 20s infinite alternate;
             opacity: 0.7;
         }
-        
+
         @keyframes flutter {
             0%, 100% {
                 transform: translateY(0) rotate(0deg);
@@ -478,7 +529,7 @@
                 transform: translateY(-30px) rotate(3deg);
             }
         }
-        
+
         .bifurcation-diagram {
             width: 100%;
             height: 400px;
@@ -487,7 +538,7 @@
             overflow: hidden;
             margin: 1rem 0;
         }
-        
+
         .term-card {
             background-color: var(--blue-700);
             border-radius: 0.5rem;
@@ -495,14 +546,14 @@
             margin-bottom: 1rem;
             border-left: 4px solid var(--yellow-400);
         }
-        
+
         .term-title {
             font-weight: bold;
             color: var(--yellow-400);
             margin-bottom: 0.5rem;
             font-size: 1.2rem;
         }
-        
+
         .math-formula {
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 0.5rem;
@@ -520,6 +571,11 @@
             border-radius: 0.5rem;
             margin: 1rem auto;
             display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .historical-image:hover {
+            transform: scale(1.05);
         }
 
         .error-message {
@@ -528,32 +584,44 @@
             text-align: center;
             margin: 1rem 0;
         }
+
+        /* Accessibility Improvements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <span class="logo-icon">🌀</span>
+                <div class="logo" role="banner">
+                    <span class="logo-icon" aria-hidden="true">🌀</span>
                     <h1 class="logo-text">Amerika'nın Keşfi ve Kaos Teorisi</h1>
                 </div>
-                <nav>
+                <nav role="navigation" aria-label="Ana Menü">
                     <ul class="nav-list">
                         <li class="nav-item">
-                            <button class="nav-button active" data-tab="anasayfa">Amerika'nın Keşfi</button>
+                            <button class="nav-button active" data-tab="anasayfa" aria-selected="true">Amerika'nın Keşfi</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-button" data-tab="kaos-teorisi">Kaos Teorisi</button>
+                            <button class="nav-button" data-tab="kaos-teorisi" aria-selected="false">Kaos Teorisi</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-button" data-tab="kasifler">Kaşifler</button>
+                            <button class="nav-button" data-tab="kasifler" aria-selected="false">Kaşifler</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-button" data-tab="zaman-cizelgesi">Zaman Çizelgesi</button>
+                            <button class="nav-button" data-tab="zaman-cizelgesi" aria-selected="false">Zaman Çizelgesi</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-button" data-tab="kaotik-analiz">Kaotik Analiz</button>
+                            <button class="nav-button" data-tab="kaotik-analiz" aria-selected="false">Kaotik Analiz</button>
                         </li>
                     </ul>
                 </nav>
@@ -561,9 +629,9 @@
         </div>
     </header>
 
-    <main>
+    <main role="main">
         <div class="container">
-            <div id="anasayfa" class="tab-content active">
+            <div id="anasayfa" class="tab-content active" role="tabpanel" aria-labelledby="anasayfa-tab">
                 <div class="space-y">
                     <section class="section">
                         <h2 class="section-title">Amerika Kıtasının Keşfi</h2>
@@ -573,7 +641,7 @@
                             çatışmalar gibi geniş kapsamlı sonuçlar doğurmuştur. Kristof Kolomb’un 1492’deki yolculuğu, bu dönemin başlangıç noktası 
                             olarak kabul edilir, ancak Vikinglerden yerli halklarla temasa kadar uzanan daha geniş bir bağlamda ele alınmalıdır.
                         </p>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Columbus_Landing_on_Guanahani%2C_1492.jpg" alt="Kolomb'un Guanahani'ye çıkışı, 1492" class="historical-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Columbus_Landing_on_Guanahani%2C_1492.jpg" alt="Kolomb'un Guanahani'ye çıkışı,  Hannah" class="historical-image">
                         <p class="gallery-desc">Kolomb'un Guanahani'ye çıkışı, 1492. Kaynak: Wikimedia Commons</p>
                         <div class="box">
                             <h3 class="box-title">Keşif Öncesi Dönem</h3>
@@ -678,13 +746,13 @@
                             </div>
                         </div>
                         <div style="text-align: center; margin-top: 1rem;">
-                            <button class="button" onclick="activateTab('kasifler')">Tüm Kaşifleri Keşfet</button>
+                            <button class="button" onclick="activateTab('kasifler')" aria-label="Tüm kaşifleri keşfet">Tüm Kaşifleri Keşfet</button>
                         </div>
                     </section>
                 </div>
             </div>
 
-            <div id="kaos-teorisi" class="tab-content">
+            <div id="kaos-teorisi" class="tab-content" role="tabpanel" aria-labelledby="kaos-teorisi-tab">
                 <div class="section">
                     <h2 class="section-title">Kaos Teorisi ve Tarihsel Dönüm Noktaları</h2>
                     <p class="section-content">
@@ -742,37 +810,37 @@
                     <div class="chaos-parameter">
                         <div class="slider-label">
                             <span>r parametresi</span>
-                            <span id="r-value">3.5</span>
+                            <span id="r-value">3.50</span>
                         </div>
-                        <input type="range" min="0" max="4" step="0.01" value="3.5" class="slider" id="r-slider">
+                        <input type="range" min="0" max="4" step="0.01" value="3.5" class="slider" id="r-slider" aria-label="Lojistik harita r parametresi">
                     </div>
                     
                     <div class="canvas-container" id="logistic-container">
-                        <canvas id="logistic-map"></canvas>
+                        <canvas id="logistic-map" aria-label="Lojistik harita simülasyonu"></canvas>
                         <p class="error-message" id="logistic-error" style="display: none;">Lojistik harita yüklenemedi.</p>
                     </div>
                     
                     <div class="bifurcation-diagram">
-                        <canvas id="bifurcation"></canvas>
+                        <canvas id="bifurcation" aria-label="Bifurkasyon diyagramı"></canvas>
                         <p class="error-message" id="bifurcation-error" style="display: none;">Bifurkasyon diyagramı yüklenemedi.</p>
                     </div>
                     
                     <div class="chaos-parameter">
                         <div class="slider-label">
                             <span>Başlangıç Sapması (Kelebek Etkisi)</span>
-                            <span id="route-value">0.01</span>
+                            <span id="route-value">0.010</span>
                         </div>
-                        <input type="range" min="0" max="0.1" step="0.001" value="0.01" class="slider" id="route-slider">
+                        <input type="range" min="0" max="0.1" step="0.001" value="0.01" class="slider" id="route-slider" aria-label="Rota hassasiyeti sapma parametresi">
                     </div>
                     
                     <div class="canvas-container" id="route-container">
-                        <canvas id="route-sensitivity"></canvas>
+                        <canvas id="route-sensitivity" aria-label="Rota hassasiyeti simülasyonu"></canvas>
                         <p class="error-message" id="route-error" style="display: none;">Rota hassasiyeti haritası yüklenemedi.</p>
                     </div>
                 </div>
             </div>
 
-            <div id="kasifler" class="tab-content">
+            <div id="kasifler" class="tab-content" role="tabpanel" aria-labelledby="kasifler-tab">
                 <div class="section">
                     <h2 class="section-title">Amerika'nın Keşfindeki Önemli İsimler</h2>
                     <img src="https://upload.wikimedia.org/wikipedia/commons/0/07/Cantino_planisphere_%281502%29.jpg" alt="Cantino Planisferi, 1502" class="historical-image">
@@ -793,9 +861,9 @@
                                     <p><strong>Keşif Seferleri:</strong> 1492-93, 1493-96, 1498-1500, 1502-04</p>
                                 </div>
                                 <div style="flex: 1; margin-top: 1rem; display: flex; justify-content: center;">
-                                    <div style="background-color: #2563eb; padding: 0.5rem; border-radius: 0.5rem; text-align: center;">
+                                    <div class="gallery-item">
                                         <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Christopher_Columbus.PNG" alt="Kristof Kolomb portresi" class="gallery-image">
-                                        <p style="margin-top: 0.5rem; font-size: 0.875rem;">Kristof Kolomb portresi, Kaynak: Wikimedia Commons</p>
+                                        <p class="gallery-desc">Kristof Kolomb portresi, Kaynak: Wikimedia Commons</p>
                                     </div>
                                 </div>
                             </div>
@@ -815,9 +883,9 @@
                                     <p><strong>Keşif Seferleri:</strong> 1499-1500, 1501-1502</p>
                                 </div>
                                 <div style="flex: 1; margin-top: 1rem; display: flex; justify-content: center;">
-                                    <div style="background-color: #2563eb; padding: 0.5rem; border-radius: 0.5rem; text-align: center;">
+                                    <div class="gallery-item">
                                         <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Amerigo_Vespucci_%28cropped%29.jpg" alt="Amerigo Vespucci portresi" class="gallery-image">
-                                        <p style="margin-top: 0.5rem; font-size: 0.875rem;">Amerigo Vespucci portresi, Kaynak: Wikimedia Commons</p>
+                                        <p class="gallery-desc">Amerigo Vespucci portresi, Kaynak: Wikimedia Commons</p>
                                     </div>
                                 </div>
                             </div>
@@ -832,37 +900,37 @@
                 </div>
             </div>
 
-            <div id="zaman-cizelgesi" class="tab-content">
+            <div id="zaman-cizelgesi" class="tab-content" role="tabpanel" aria-labelledby="zaman-cizelgesi-tab">
                 <div class="section">
                     <h2 class="section-title">Keşifler Zaman Çizelgesi</h2>
                     <div class="timeline">
                         <div class="timeline-line"></div>
                         <div class="timeline-item">
-                            <div class="timeline-dot"></div>
+                            <div class="timeline-dot" aria-hidden="true"></div>
                             <p class="timeline-year">1000</p>
                             <h3 class="timeline-title">Viking Keşifleri</h3>
                             <p>Leif Erikson, Kuzey Amerika’ya (Vinland) ulaşır, L’Anse aux Meadows yerleşimi kurulur.</p>
                         </div>
                         <div class="timeline-item">
-                            <div class="timeline-dot"></div>
+                            <div class="timeline-dot" aria-hidden="true"></div>
                             <p class="timeline-year">1492</p>
                             <h3 class="timeline-title">Kolomb’un İlk Seferi</h3>
                             <p>Kristof Kolomb, Bahama Adaları’na ulaşır, Avrupa’nın Amerika ile temasını başlatır.</p>
                         </div>
                         <div class="timeline-item">
-                            <div class="timeline-dot"></div>
+                            <div class="timeline-dot" aria-hidden="true"></div>
                             <p class="timeline-year">1493-96</p>
                             <h3 class="timeline-title">Kolomb’un İkinci Seferi</h3>
                             <p>Kolomb, Hispaniola’da ilk kalıcı Avrupa yerleşimini kurar.</p>
                         </div>
                         <div class="timeline-item">
-                            <div class="timeline-dot"></div>
+                            <div class="timeline-dot" aria-hidden="true"></div>
                             <p class="timeline-year">1499-1502</p>
                             <h3 class="timeline-title">Vespucci’nin Seferleri</h3>
                             <p>Amerigo Vespucci, Güney Amerika kıyılarını keşfeder ve yeni bir kıta olduğunu fark eder.</p>
                         </div>
                         <div class="timeline-item">
-                            <div class="timeline-dot"></div>
+                            <div class="timeline-dot" aria-hidden="true"></div>
                             <p class="timeline-year">1507</p>
                             <h3 class="timeline-title">Amerika’nın Adlandırılması</h3>
                             <p>Martin Waldseemüller, Vespucci’nin onuruna yeni kıtayı “Amerika” olarak adlandırır.</p>
@@ -871,7 +939,7 @@
                 </div>
             </div>
 
-            <div id="kaotik-analiz" class="tab-content">
+            <div id="kaotik-analiz" class="tab-content" role="tabpanel" aria-labelledby="kaotik-analiz-tab">
                 <div class="section">
                     <h2 class="section-title">Kaotik Analiz ve Tarihsel Bağlantılar</h2>
                     <p class="section-content">
@@ -917,11 +985,11 @@
         </div>
     </main>
 
-    <footer>
+    <footer role="contentinfo">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <span class="logo-icon">🌀</span>
+                    <span class="logo-icon" aria-hidden="true">🌀</span>
                     <h3 class="logo-text">Amerika'nın Keşfi ve Kaos</h3>
                     <p class="footer-tagline">Geçmişin kaotik izlerini keşfedin</p>
                 </div>
@@ -939,158 +1007,207 @@
             const tabContents = document.querySelectorAll('.tab-content');
             tabContents.forEach(content => {
                 content.classList.remove('active');
+                content.setAttribute('aria-hidden', 'true');
             });
-            
+
             const tabButtons = document.querySelectorAll('.nav-button');
             tabButtons.forEach(button => {
                 button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
             });
-            
-            document.getElementById(tabId).classList.add('active');
-            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+
+            const selectedTab = document.getElementById(tabId);
+            selectedTab.classList.add('active');
+            selectedTab.setAttribute('aria-hidden', 'false');
+            const selectedButton = document.querySelector(`[data-tab="${tabId}"]`);
+            selectedButton.classList.add('active');
+            selectedButton.setAttribute('aria-selected', 'true');
+            selectedButton.focus();
         }
-        
+
+        // Canvas boyutlarını güncelle
+        function resizeCanvas(canvas) {
+            if (canvas && canvas.parentElement) {
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = canvas.parentElement.clientWidth * dpr;
+                canvas.height = canvas.parentElement.clientHeight * dpr;
+                canvas.style.width = `${canvas.parentElement.clientWidth}px`;
+                canvas.style.height = `${canvas.parentElement.clientHeight}px`;
+                canvas.getContext('2d').scale(dpr, dpr);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            // Sekme olay dinleyicileri
             const tabButtons = document.querySelectorAll('.nav-button');
             tabButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const tabId = button.getAttribute('data-tab');
                     activateTab(tabId);
                 });
+                button.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const tabId = button.getAttribute('data-tab');
+                        activateTab(tabId);
+                    }
+                });
             });
-            
+
+            // Canvas boyutlarını başlat
+            const canvases = document.querySelectorAll('canvas');
+            canvases.forEach(resizeCanvas);
+
+            // Pencere yeniden boyutlandırıldığında canvasları güncelle
+            window.addEventListener('resize', () => {
+                canvases.forEach(resizeCanvas);
+            });
+
             setupChaosSimulations();
         });
-        
+
         function setupChaosSimulations() {
+            // Animasyon çerçeve yönetimi
+            let logisticAnimationFrame = null;
+            let bifurcationAnimationFrame = null;
+            let routeAnimationFrame = null;
+
             // Lojistik Harita
             const logisticCanvas = document.getElementById('logistic-map');
             const logisticError = document.getElementById('logistic-error');
-            if (logisticCanvas) {
+            const rSlider = document.getElementById('r-slider');
+            const rValue = document.getElementById('r-value');
+
+            if (logisticCanvas && logisticError && rSlider && rValue) {
                 const logisticContext = logisticCanvas.getContext('2d');
-                const rSlider = document.getElementById('r-slider');
-                const rValue = document.getElementById('r-value');
-                
-                logisticCanvas.width = logisticCanvas.parentElement.clientWidth;
-                logisticCanvas.height = logisticCanvas.parentElement.clientHeight;
-                
+                resizeCanvas(logisticCanvas);
+
                 function drawLogisticMap(r) {
+                    if (logisticAnimationFrame) {
+                        cancelAnimationFrame(logisticAnimationFrame);
+                    }
+
                     try {
-                        logisticContext.clearRect(0, 0, logisticCanvas.width, logisticCanvas.height);
-                        
+                        logisticContext.clearRect(0, 0, logisticCanvas.width / (window.devicePixelRatio || 1), logisticCanvas.height / (window.devicePixelRatio || 1));
+
                         // Eksenler
                         logisticContext.strokeStyle = 'rgba(255, 255, 255, 0.2)';
                         logisticContext.beginPath();
-                        logisticContext.moveTo(0, logisticCanvas.height / 2);
-                        logisticContext.lineTo(logisticCanvas.width, logisticCanvas.height / 2);
+                        logisticContext.moveTo(0, logisticCanvas.height / (2 * (window.devicePixelRatio || 1)));
+                        logisticContext.lineTo(logisticCanvas.width / (window.devicePixelRatio || 1), logisticCanvas.height / (2 * (window.devicePixelRatio || 1)));
                         logisticContext.stroke();
-                        
+
                         logisticContext.beginPath();
-                        logisticContext.moveTo(logisticCanvas.width / 2, 0);
-                        logisticContext.lineTo(logisticCanvas.width / 2, logisticCanvas.height);
+                        logisticContext.moveTo(logisticCanvas.width / (2 * (window.devicePixelRatio || 1)), 0);
+                        logisticContext.lineTo(logisticCanvas.width / (2 * (window.devicePixelRatio || 1)), logisticCanvas.height / (window.devicePixelRatio || 1));
                         logisticContext.stroke();
-                        
+
                         function logistic(x, r) {
                             return r * x * (1 - x);
                         }
-                        
+
                         let x = 0.1;
                         const iterations = 100;
                         const plotPoints = [];
-                        
+
                         for (let i = 0; i < 20; i++) {
                             x = logistic(x, r);
                         }
-                        
+
                         for (let i = 0; i < iterations; i++) {
                             x = logistic(x, r);
                             plotPoints.push(x);
                         }
-                        
+
                         // Animasyonlu nokta çizimi
                         logisticContext.fillStyle = '#facc15';
                         let index = 0;
                         function animatePoints() {
                             if (index < plotPoints.length) {
                                 const point = plotPoints[index];
-                                const canvasX = (point * logisticCanvas.width);
-                                const canvasY = logisticCanvas.height - (point * logisticCanvas.height);
-                                
+                                const canvasX = (point * logisticCanvas.width) / (window.devicePixelRatio || 1);
+                                const canvasY = (logisticCanvas.height - (point * logisticCanvas.height)) / (window.devicePixelRatio || 1);
+
                                 logisticContext.beginPath();
                                 logisticContext.arc(canvasX, canvasY, 2, 0, Math.PI * 2);
                                 logisticContext.fill();
                                 index++;
-                                requestAnimationFrame(animatePoints);
+                                logisticAnimationFrame = requestAnimationFrame(animatePoints);
+                            } else {
+                                // Durum etiketi
+                                logisticContext.fillStyle = 'white';
+                                logisticContext.font = `14px Roboto, sans-serif`;
+                                let label = '';
+                                if (r < 3) {
+                                    label = 'Sabit Nokta (Denge)';
+                                } else if (r < 3.44949) {
+                                    label = 'Periyodik Salınım';
+                                } else if (r < 3.56995) {
+                                    label = 'Periyot Katlanması';
+                                } else {
+                                    label = 'Kaos Bölgesi';
+                                }
+                                logisticContext.fillText(label, 10, 20);
                             }
                         }
-                        animatePoints();
-                        
-                        // Durum etiketi
-                        logisticContext.fillStyle = 'white';
-                        logisticContext.font = '14px Roboto, sans-serif';
-                        let label = '';
-                        if (r < 3) {
-                            label = 'Sabit Nokta (Denge)';
-                        } else if (r < 3.44949) {
-                            label = 'Periyodik Salınım';
-                        } else if (r < 3.56995) {
-                            label = 'Periyot Katlanması';
-                        } else {
-                            label = 'Kaos Bölgesi';
-                        }
-                        logisticContext.fillText(label, 10, 20);
+                        logisticAnimationFrame = requestAnimationFrame(animatePoints);
                         logisticError.style.display = 'none';
                     } catch (e) {
                         logisticError.style.display = 'block';
+                        logisticError.textContent = `Lojistik harita hatası: ${e.message}`;
                         console.error('Lojistik harita hatası:', e);
                     }
                 }
-                
+
                 rSlider.addEventListener('input', () => {
                     const r = parseFloat(rSlider.value);
                     rValue.textContent = r.toFixed(2);
                     drawLogisticMap(r);
                 });
-                
+
                 drawLogisticMap(parseFloat(rSlider.value));
             } else {
-                logisticError.style.display = 'block';
+                if (logisticError) {
+                    logisticError.style.display = 'block';
+                    logisticError.textContent = 'Lojistik harita bileşenleri eksik.';
+                }
             }
-            
+
             // Bifurkasyon Diyagramı
             const bifurcationCanvas = document.getElementById('bifurcation');
             const bifurcationError = document.getElementById('bifurcation-error');
-            if (bifurcationCanvas) {
+
+            if (bifurcationCanvas && bifurcationError) {
                 const bifurcationContext = bifurcationCanvas.getContext('2d');
-                
-                bifurcationCanvas.width = bifurcationCanvas.parentElement.clientWidth;
-                bifurcationCanvas.height = bifurcationCanvas.parentElement.clientHeight;
-                
+                resizeCanvas(bifurcationCanvas);
+
                 function drawBifurcationDiagram() {
+                    if (bifurcationAnimationFrame) {
+                        cancelAnimationFrame(bifurcationAnimationFrame);
+                    }
+
                     try {
-                        bifurcationContext.clearRect(0, 0, bifurcationCanvas.width, bifurcationCanvas.height);
-                        
+                        bifurcationContext.clearRect(0, 0, bifurcationCanvas.width / (window.devicePixelRatio || 1), bifurcationCanvas.height / (window.devicePixelRatio || 1));
+
                         bifurcationContext.fillStyle = 'white';
-                        bifurcationContext.font = '16px Roboto, sans-serif';
+                        bifurcationContext.font = `16px Roboto, sans-serif`;
                         bifurcationContext.fillText('Bifurkasyon Diyagramı: Düzen → Kaos', 10, 20);
-                        
-                        bifurcationContext.font = '12px Roboto, sans-serif';
+                        bifurcationContext.font = `12px Roboto, sans-serif`;
                         bifurcationContext.fillText('Yatay eksen: r parametresi (2.4 - 4.0)', 10, 40);
                         bifurcationContext.fillText('Dikey eksen: x değerleri', 10, 60);
-                        
+
                         function logistic(x, r) {
                             return r * x * (1 - x);
                         }
-                        
+
                         const rStart = 2.4;
                         const rEnd = 4.0;
                         const rStep = 0.005;
                         const iterations = 300;
                         const skipIterations = 100;
-                        
+
                         bifurcationContext.fillStyle = 'rgba(250, 204, 21, 0.5)';
-                        
-                        // Animasyonlu çizim
+
                         let r = rStart;
                         function animateBifurcation() {
                             if (r <= rEnd) {
@@ -1100,109 +1217,116 @@
                                 }
                                 for (let i = 0; i < iterations; i++) {
                                     x = logistic(x, r);
-                                    const canvasX = ((r - rStart) / (rEnd - rStart)) * bifurcationCanvas.width;
-                                    const canvasY = bifurcationCanvas.height - (x * bifurcationCanvas.height);
+                                    const canvasX = ((r - rStart) / (rEnd - rStart)) * (bifurcationCanvas.width / (window.devicePixelRatio || 1));
+                                    const canvasY = (bifurcationCanvas.height - (x * bifurcationCanvas.height)) / (window.devicePixelRatio || 1);
                                     bifurcationContext.beginPath();
                                     bifurcationContext.arc(canvasX, canvasY, 0.5, 0, Math.PI * 2);
                                     bifurcationContext.fill();
                                 }
                                 r += rStep;
-                                requestAnimationFrame(animateBifurcation);
+                                bifurcationAnimationFrame = requestAnimationFrame(animateBifurcation);
                             } else {
                                 // Çatallanma noktaları
                                 bifurcationContext.strokeStyle = 'rgba(255, 255, 255, 0.5)';
                                 bifurcationContext.setLineDash([5, 5]);
-                                const r3 = ((3 - rStart) / (rEnd - rStart)) * bifurcationCanvas.width;
+                                const r3 = ((3 - rStart) / (rEnd - rStart)) * (bifurcationCanvas.width / (window.devicePixelRatio || 1));
                                 bifurcationContext.beginPath();
                                 bifurcationContext.moveTo(r3, 0);
-                                bifurcationContext.lineTo(r3, bifurcationCanvas.height);
+                                bifurcationContext.lineTo(r3, bifurcationCanvas.height / (window.devicePixelRatio || 1));
                                 bifurcationContext.stroke();
                                 bifurcationContext.fillText('r=3: İlk çatallanma', r3 + 5, 80);
-                                
-                                const r357 = ((3.57 - rStart) / (rEnd - rStart)) * bifurcationCanvas.width;
+
+                                const r357 = ((3.57 - rStart) / (rEnd - rStart)) * (bifurcationCanvas.width / (window.devicePixelRatio || 1));
                                 bifurcationContext.beginPath();
                                 bifurcationContext.moveTo(r357, 0);
-                                bifurcationContext.lineTo(r357, bifurcationCanvas.height);
+                                bifurcationContext.lineTo(r357, bifurcationCanvas.height / (window.devicePixelRatio || 1));
                                 bifurcationContext.stroke();
                                 bifurcationContext.fillText('r=3.57: Kaos başlangıcı', r357 + 5, 100);
                                 bifurcationContext.setLineDash([]);
                             }
                         }
-                        animateBifurcation();
+                        bifurcationAnimationFrame = requestAnimationFrame(animateBifurcation);
                         bifurcationError.style.display = 'none';
                     } catch (e) {
                         bifurcationError.style.display = 'block';
+                        bifurcationError.textContent = `Bifurkasyon diyagramı hatası: ${e.message}`;
                         console.error('Bifurkasyon diyagramı hatası:', e);
                     }
                 }
-                
+
                 drawBifurcationDiagram();
             } else {
-                bifurcationError.style.display = 'block';
+                if (bifurcationError) {
+                    bifurcationError.style.display = 'block';
+                    bifurcationError.textContent = 'Bifurkasyon diyagramı bileşenleri eksik.';
+                }
             }
-            
+
             // Rota Hassasiyeti
             const routeCanvas = document.getElementById('route-sensitivity');
             const routeError = document.getElementById('route-error');
-            if (routeCanvas) {
+            const routeSlider = document.getElementById('route-slider');
+            const routeValue = document.getElementById('route-value');
+
+            if (routeCanvas && routeError && routeSlider && routeValue) {
                 const routeContext = routeCanvas.getContext('2d');
-                const routeSlider = document.getElementById('route-slider');
-                const routeValue = document.getElementById('route-value');
-                
-                routeCanvas.width = routeCanvas.parentElement.clientWidth;
-                routeCanvas.height = routeCanvas.parentElement.clientHeight;
-                
+                resizeCanvas(routeCanvas);
+
                 const mapImage = new Image();
                 mapImage.src = 'https://upload.wikimedia.org/wikipedia/commons/8/83/World_map_16th_century.jpg';
-                
+
                 mapImage.onload = () => {
                     drawRouteSensitivity(parseFloat(routeSlider.value));
                     routeError.style.display = 'none';
                 };
-                
+
                 mapImage.onerror = () => {
                     routeError.style.display = 'block';
-                    routeError.textContent = 'Harita görüntüsü yüklenemedi.';
+                    routeError.textContent = 'Harita görüntüsü yüklenemedi. Lütfen internet bağlantınızı kontrol edin.';
                 };
-                
+
                 function drawRouteSensitivity(deviation) {
+                    if (routeAnimationFrame) {
+                        cancelAnimationFrame(routeAnimationFrame);
+                    }
+
                     try {
-                        routeContext.clearRect(0, 0, routeCanvas.width, routeCanvas.height);
-                        
+                        routeContext.clearRect(0, 0, routeCanvas.width / (window.devicePixelRatio || 1), routeCanvas.height / (window.devicePixelRatio || 1));
+
                         // Tarihi harita arka planı
-                        routeContext.drawImage(mapImage, 0, 0, routeCanvas.width, routeCanvas.height);
-                        
+                        routeContext.drawImage(mapImage, 0, 0, routeCanvas.width / (window.devicePixelRatio || 1), routeCanvas.height / (window.devicePixelRatio || 1));
+
                         // Görünürlük için yarı saydam katman
                         routeContext.fillStyle = 'rgba(0, 0, 0, 0.3)';
-                        routeContext.fillRect(0, 0, routeCanvas.width, routeCanvas.height);
-                        
+                        routeContext.fillRect(0, 0, routeCanvas.width / (window.devicePixelRatio || 1), routeCanvas.height / (window.devicePixelRatio || 1));
+
                         // Önemli konumları etiketle
                         routeContext.fillStyle = 'white';
-                        routeContext.font = '14px Roboto, sans-serif';
-                        routeContext.fillText('İspanya', 50, routeCanvas.height - 30);
-                        routeContext.fillText('Bahama Adaları', routeCanvas.width - 100, routeCanvas.height / 2);
-                        
-                        // Rotaları simüle et (basitleştirilmiş Mercator projeksiyonu)
+                        routeContext.font = `14px Roboto, sans-serif`;
+                        routeContext.fillText('İspanya', 50, (routeCanvas.height / (window.devicePixelRatio || 1)) - 30);
+                        routeContext.fillText('Bahama Adaları', (routeCanvas.width / (window.devicePixelRatio || 1)) - 100, routeCanvas.height / (2 * (window.devicePixelRatio || 1)));
+
+                        // Rotaları simüle et
                         function simulateRoute(lon0, lat0, deviation) {
                             const points = [];
                             let lon = lon0;
                             let lat = lat0;
                             const steps = 100;
                             const dLon = (-75 - lon0) / steps;
-                            
+
                             for (let i = 0; i < steps; i++) {
                                 lon += dLon;
                                 lat += (Math.random() - 0.5) * deviation * 2;
-                                const canvasX = ((lon + 180) / 360) * routeCanvas.width;
-                                const canvasY = routeCanvas.height - ((lat + 90) / 180) * routeCanvas.height;
+                                const canvasX = ((lon + 180) / 360) * (routeCanvas.width / (window.devicePixelRatio || 1));
+                                const canvasY = (routeCanvas.height - ((lat + 90) / 180) * routeCanvas.height) / (window.devicePixelRatio || 1);
                                 points.push({ x: canvasX, y: canvasY });
                             }
                             return points;
                         }
-                        
+
                         const originalRoute = simulateRoute(-5, 40, 0);
                         const deviatedRoute = simulateRoute(-5, 40 + deviation * 10, deviation);
-                        
+
                         // Animasyonlu rota çizimi
                         routeContext.strokeStyle = '#facc15';
                         routeContext.lineWidth = 2;
@@ -1216,13 +1340,13 @@
                                 }
                                 routeContext.stroke();
                                 index++;
-                                requestAnimationFrame(animateOriginalRoute);
+                                routeAnimationFrame = requestAnimationFrame(animateOriginalRoute);
                             } else {
                                 routeContext.fillStyle = 'white';
                                 routeContext.fillText('Orijinal Rota', originalRoute[originalRoute.length - 1].x + 10, originalRoute[originalRoute.length - 1].y);
                             }
                         }
-                        
+
                         routeContext.strokeStyle = '#ef4444';
                         let deviatedIndex = 0;
                         function animateDeviatedRoute() {
@@ -1234,31 +1358,35 @@
                                 }
                                 routeContext.stroke();
                                 deviatedIndex++;
-                                requestAnimationFrame(animateDeviatedRoute);
+                                routeAnimationFrame = requestAnimationFrame(animateDeviatedRoute);
                             } else {
                                 routeContext.fillStyle = 'white';
                                 routeContext.fillText('Sapmış Rota', deviatedRoute[deviatedRoute.length - 1].x + 10, deviatedRoute[deviatedRoute.length - 1].y);
                             }
                         }
-                        
+
                         animateOriginalRoute();
                         animateDeviatedRoute();
                         routeError.style.display = 'none';
                     } catch (e) {
                         routeError.style.display = 'block';
+                        routeError.textContent = `Rota hassasiyeti hatası: ${e.message}`;
                         console.error('Rota hassasiyeti hatası:', e);
                     }
                 }
-                
+
                 routeSlider.addEventListener('input', () => {
                     const deviation = parseFloat(routeSlider.value);
                     routeValue.textContent = deviation.toFixed(3);
                     drawRouteSensitivity(deviation);
                 });
-                
+
                 drawRouteSensitivity(parseFloat(routeSlider.value));
             } else {
-                routeError.style.display = 'block';
+                if (routeError) {
+                    routeError.style.display = 'block';
+                    routeError.textContent = 'Rota hassasiyeti bileşenleri eksik.';
+                }
             }
         }
     </script>
