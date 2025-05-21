@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amerika'nın Keşfi ve Kaos Teorisi - İnteraktif Analiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
+    <style>
+        :root {
+            --blue-950: #1e1b4b;
+            --blue-900: #1e40af;
+            --blue-800: #2563eb;
+            --blue-700: #3b82f6;
+            --yellow-500: #f59e0b;
+            --yellow-400: #fbbf24;
+            --gray-300: #d1d5db;
+            --white: #f8fafc;
+            --red-500: #ef4444;
+            --green-500: #22c55e;
+            --purple-500: #a855f7;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--blue-900), var(--blue-700));
+            color: var(--white);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            background-color: var(--blue-950);
+            padding: 2rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            font-size: 3rem;
+            color: var(--yellow-400);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-icon:hover {
+            transform: rotate(360deg);
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--yellow-400);
+            letter-spacing: 0.02em;
+        }
+
+        @media (min-width: 768px) {
+            .logo-text {
+                font-size: 2.5rem;
+            }
+        }
+
+        nav {
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            nav {
+                width: auto;
+            }
+        }
+
+        .nav-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .nav-button {
+            background-color: var(--blue-800);
+            color: var(--white);
+            border: none;
+            border-radius: 1rem;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+        }
+
+        .nav-button:hover {
+            background-color: var(--blue-700);
+            transform: translateY(-2px);
+        }
+
+        .nav-button:focus {
+            outline: 2px solid var(--yellow-400);
+            outline-offset: 2px;
+        }
+
+        .nav-button.active {
+            background-color: var(--yellow-400);
+            color: var(--blue-950);
+            font-weight: 600;
+        }
+
+        main {
+            padding: 3rem 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section {
+            background-color: var(--blue-800);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--yellow-400);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .section-content {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .box {
+            background-color: var(--blue-700);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: transform 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+        }
+
+        .box-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--yellow-400);
+            margin-bottom: 1.5rem;
+        }
+
+        .image-button {
+            display: inline-block;
+            background-color: var(--yellow-400);
+            color: var(--blue-950);
+            border: none;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .image-button:hover {
+            background-color: var(--yellow-500);
+            transform: translateY(-2px);
+        }
+
+        .image-button:focus {
+            outline: 2px solid var(--white);
+            outline-offset: 2px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .grid-3 {
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 768px) {
+            .grid-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .icon-circle {
+            width: 70px;
+            height: 70px;
+            background-color: var(--yellow-400);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .icon {
+            font-size: 2rem;
+        }
+
+        .icon-small {
+            width: 50px;
+            height: 50px;
+            background-color: var(--yellow-400);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+        }
+
+        .flex {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .button {
+            background-color: var(--yellow-400);
+            color: var(--blue-950);
+            border: none;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: var(--yellow-500);
+            transform: translateY(-2px);
+        }
+
+        .button:focus {
+            outline: 2px solid var(--white);
+            outline-offset: 2px;
+        }
+
+        .butterfly-effect {
+            position: relative;
+            padding: 2.5rem;
+            background-color: var(--blue-700);
+            border-radius: 1rem;
+            margin: 2rem auto;
+            max-width: 1000px;
+            width: 100%;
+            border: 2px solid var(--yellow-400);
+            overflow: hidden;
+        }
+
+        .butterfly-path {
+            position: relative;
+            height: 250px;
+            width: 100%;
+        }
+
+        .butterfly {
+            position: absolute;
+            font-size: 2.5rem;
+            animation: fly 7s infinite ease-in-out;
+            will-change: transform;
+        }
+
+        @keyframes fly {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(150px, -50px); }
+            40% { transform: translate(200px, 0); }
+            60% { transform: translate(100px, 60px); }
+            80% { transform: translate(50px, -20px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @-webkit-keyframes fly {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(150px, -50px); }
+            40% { transform: translate(200px, 0); }
+            60% { transform: translate(100px, 60px); }
+            80% { transform: translate(50px, -20px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .highlight-text {
+            color: var(--yellow-400);
+            font-weight: 600;
+        }
+
+        .math-formula {
+            font-style: italic;
+            color: var(--yellow-400);
+        }
+
+        .term-card {
+            background-color: var(--blue-700);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .term-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--yellow-400);
+            margin-bottom: 1.5rem;
+        }
+
+        .chaos-parameter {
+            margin: 2.5rem 0;
+            max-width: 600px;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .slider {
+            width: 100%;
+            accent-color: var(--yellow-400);
+        }
+
+        .canvas-container {
+            position: relative;
+            margin: 2.5rem 0;
+            width: 100%;
+            max-width: 800px;
+            height: 450px;
+        }
+
+        .error-message {
+            color: var(--red-500);
+            font-size: 1rem;
+            margin-top: 0.75rem;
+            text-align: center;
+        }
+
+        .bifurcation-diagram {
+            margin: 2.5rem 0;
+            width: 100%;
+            max-width: 800px;
+            height: 450px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background-color: var(--yellow-400);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -0.75rem;
+            top: 0.75rem;
+            width: 20px;
+            height: 20px;
+            background-color: var(--yellow-400);
+            border-radius: 50%;
+        }
+
+        .timeline-year {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--yellow-400);
+            margin-bottom: 0.75rem;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            color: var(--gray-300);
+        }
+
+        .footer-copyright {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <header role="banner">
+                <div class="header-content">
+                    <div class="logo">
+                        <span class="logo-icon" aria-hidden="true">🌀</span>
+                        <h1 class="logo-text">Amerika'nın Keşfi ve Kaos</h1>
+                    </div>
+                    <nav role="navigation" aria-label="Ana navigasyon">
+                        <ul class="nav-list">
+                            <li class="nav-item">
+                                <button class="nav-button active" data-tab="genel-bakis" id="genel-bakis-tab" aria-selected="true" aria-controls="genel-bakis">Genel Bakış</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-button" data-tab="kaos-teorisi" id="kaos-teorisi-tab" aria-selected="false" aria-controls="kaos-teorisi">Kaos Teorisi</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-button" data-tab="kasifler" id="kasifler-tab" aria-selected="false" aria-controls="kasifler">Kaşifler</button>
